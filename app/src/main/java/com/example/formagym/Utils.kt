@@ -21,8 +21,10 @@ suspend fun Fragment.getBitmap(url: String): Bitmap {
 }
 
 fun getData(milliseconds: Long): String {
-    val sdf = SimpleDateFormat.getDateInstance()
-    return sdf.format(Date(milliseconds))
+    val sdf = SimpleDateFormat("d MMM, yyyy", Locale.getDefault())
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = milliseconds
+    return sdf.format(calendar.time)
 }
 
 fun getCurrentData(): String {

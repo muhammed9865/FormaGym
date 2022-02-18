@@ -3,6 +3,7 @@ package com.example.formagym.ui.subscribers.adapter
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.load
@@ -24,6 +25,7 @@ class SubscribersViewHolder(private val binding: ListItemMemberBinding): Recycle
             }
             setTextColor(color)
         }
+
         member.memberPhoto?.let { memberPhoto.load(it) }
         memberShowDetails.setOnClickListener {
             selectedMember?.onSelectedMember(member)

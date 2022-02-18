@@ -3,15 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/subsFragment">
+    app:startDestination="@id/activeFragment">
     <fragment
-        android:id="@+id/subsFragment"
-        android:name="com.example.formagym.ui.subscribers.SubsFragment"
+        android:id="@+id/activeFragment"
+        android:name="com.example.formagym.ui.subscribers.ActiveFragment"
         android:label="SubsFragment"
         tools:layout="@layout/fragment_subs">
         <action
             android:id="@+id/action_subsFragment_to_inactiveFragment"
-            app:destination="@id/inactiveFragment" />
+            app:destination="@id/inactiveFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_activeFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment"
+            app:enterAnim="@anim/from_bottom"
+            app:exitAnim="@anim/to_bottom" />
     </fragment>
     <fragment
         android:id="@+id/inactiveFragment"
@@ -20,6 +27,17 @@
         tools:layout="@layout/fragment_inactive" >
         <action
             android:id="@+id/action_inactiveFragment_to_subsFragment"
-            app:destination="@id/subsFragment" />
+            app:destination="@id/activeFragment"
+            app:enterAnim="@anim/from_right" />
+        <action
+            android:id="@+id/action_inactiveFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment"
+            app:enterAnim="@anim/from_bottom"
+            app:exitAnim="@anim/to_bottom" />
     </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.formagym.ui.details.DetailsFragment"
+        android:label="DetailsFragment"
+        tools:layout="@layout/fragment_details"/>
 </navigation>

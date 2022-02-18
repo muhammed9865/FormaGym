@@ -1,18 +1,20 @@
 package com.example.formagym.ui.subscribers
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.formagym.databinding.FragmentSubsBinding
 import com.example.formagym.ui.subscribers.adapter.SubscribersAdapter
 import com.example.formagym.ui.viewmodel.SubsViewModel
 import kotlinx.coroutines.runBlocking
 
-class SubsFragment : Fragment() {
+class ActiveFragment : Fragment() {
     private lateinit var binding: FragmentSubsBinding
     private val mainViewModel: SubsViewModel by activityViewModels()
     override fun onCreateView(
@@ -23,11 +25,8 @@ class SubsFragment : Fragment() {
         val adapter = SubscribersAdapter()
 
         /*mainViewModel.activeSubs.observe(requireActivity()) {*/
-            adapter.submitList(mainViewModel.dummyData())
-            setupSubsRv(adapter)
-
-
-
+        adapter.submitList(mainViewModel.dummyData())
+        setupSubsRv(adapter)
 
         // Inflate the layout for this fragment
         return binding.root
@@ -40,5 +39,8 @@ class SubsFragment : Fragment() {
         }
     }
 
+    companion object {
+        private const val TAG = "SubsFragment"
+    }
 
 }

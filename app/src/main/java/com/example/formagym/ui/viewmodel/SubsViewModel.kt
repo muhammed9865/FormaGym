@@ -36,13 +36,13 @@ class SubsViewModel(dataSource: FormaDatabase) : ViewModel() {
                 add(
                     Member(
                         "Muhammed Salman",
-                        System.currentTimeMillis() - 10000,
+                        System.currentTimeMillis() - 100000000,
                         System.currentTimeMillis() - 1000,
                     )
                 )
             }
             val cTime = System.currentTimeMillis().minus(423110)
-            val lTime = System.currentTimeMillis().plus(423110)
+            val lTime = System.currentTimeMillis().plus(42311023)
             add(
                 Member(
                     "Osama Bin Ladin",

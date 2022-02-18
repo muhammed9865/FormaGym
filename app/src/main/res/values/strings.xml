@@ -8,4 +8,13 @@
     <string name="subscription_start">Subscription Start</string>
     <string name="subscription_end">Subscription End</string>
     <string name="no_subscribers">There are no subscribers</string>
+    <string name="take_photo">Capture Photo</string>
+    <string name="clear_photo">Clear Photo</string>
+    <string name="susbscriber_name">Susbscriber Name</string>
+    <string name="month">Month</string>
+    <string name="_2_months">2 Months</string>
+    <string name="_3_months">3 Months</string>
+    <string name="or">or</string>
+    <string name="manual_date">Enter Date Manually</string>
+    <string name="save">Save</string>
 </resources>

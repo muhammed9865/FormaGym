@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.active -> {
-                    if (currentDest != R.id.subsFragment) {
+                    if (currentDest != R.id.activeFragment) {
                         navController.navigate(R.id.action_inactiveFragment_to_subsFragment)
                     }
                     true
@@ -76,4 +76,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }
