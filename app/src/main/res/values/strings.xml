@@ -7,4 +7,5 @@
     <string name="inactive_subs">Inactive</string>
     <string name="subscription_start">Subscription Start</string>
     <string name="subscription_end">Subscription End</string>
+    <string name="no_subscribers">There are no subscribers</string>
 </resources>

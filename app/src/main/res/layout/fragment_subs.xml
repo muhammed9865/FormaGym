@@ -14,5 +14,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
+        <TextView
+            android:id="@+id/empty_members"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_subscribers"
+            android:textColor="@color/gold"
+            android:textSize="@dimen/_15ssp"
+            android:fontFamily="@font/sego_bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/subs_rv" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
