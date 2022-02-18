@@ -21,7 +21,7 @@ suspend fun Fragment.getBitmap(url: String): Bitmap {
 }
 
 fun Fragment.getData(milliseconds: Long): String {
-    val sdf = SimpleDateFormat.getDateTimeInstance()
+    val sdf = SimpleDateFormat.getDateInstance()
     val date = Date(milliseconds).time
     return sdf.format(date)
 }

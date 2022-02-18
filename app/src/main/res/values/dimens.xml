@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="boxes_radius">@dimen/_35sdp</dimen>
+    <dimen name="button_radius">@dimen/_30sdp</dimen>
+
+    <dimen name="boxes_margin">@dimen/_25sdp</dimen>
+    <dimen name="home_button_width">@dimen/_110sdp</dimen>
+    <dimen name="home_button_height">@dimen/_60sdp</dimen>
+</resources>

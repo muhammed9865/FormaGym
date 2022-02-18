@@ -9,7 +9,7 @@ data class Member(
     val name: String,
     var subscribeStartDate: Long,
     val subscribeEndDate: Long,
-    val memberPhoto: Bitmap
+    val memberPhoto: Bitmap? = null
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

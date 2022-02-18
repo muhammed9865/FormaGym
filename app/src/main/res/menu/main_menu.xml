@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/subscribers"
+        android:title="@string/subscribers"
+        android:icon="@drawable/ic_baseline_people_outline_24"
+        app:showAsAction="ifRoom"
+        />
+    <item android:id="@+id/inactive_subs"
+        android:title="@string/inactive_subs"
+        android:icon="@drawable/ic_inactive"
+        app:showAsAction="ifRoom"/>
+</menu>

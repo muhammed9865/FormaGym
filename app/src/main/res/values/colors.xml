@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+    <!-- Main color -->
+    <color name="gold">#FFD700</color>
+    <color name="grey">#3D3B3B</color>
+    <color name="active_date">#77FF7B</color>
+    <color name="inactive_date">#EB310B</color>
 </resources>
