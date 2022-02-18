@@ -3,11 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/homeFragment">
-
+    app:startDestination="@id/subsFragment">
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/subsFragment"
         android:name="com.example.formagym.ui.subscribers.SubsFragment"
-        tools:layout="@layout/fragment_subs"
-        android:label="HomeFragment" />
+        android:label="SubsFragment"
+        tools:layout="@layout/fragment_subs">
+        <action
+            android:id="@+id/action_subsFragment_to_inactiveFragment"
+            app:destination="@id/inactiveFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inactiveFragment"
+        android:name="com.example.formagym.ui.inactive.InactiveFragment"
+        android:label="fragment_inactive"
+        tools:layout="@layout/fragment_inactive" >
+        <action
+            android:id="@+id/action_inactiveFragment_to_subsFragment"
+            app:destination="@id/subsFragment" />
+    </fragment>
 </navigation>
