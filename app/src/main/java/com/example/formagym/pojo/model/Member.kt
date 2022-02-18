@@ -12,5 +12,5 @@ data class Member(
     val memberPhoto: Bitmap
 ) {
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
+    var id: Int = 0
 }
