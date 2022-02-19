@@ -17,4 +17,9 @@
     <string name="or">or</string>
     <string name="manual_date">Enter Date Manually</string>
     <string name="save">Save</string>
+    <string name="error_message">Name or Date cannot be empty</string>
+    <string name="sub_duration">Subscription Duration</string>
+    <string name="delete_member">"You are about to delete "</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 </resources>

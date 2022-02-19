@@ -33,7 +33,7 @@ class SubscribersViewHolder(private val binding: ListItemMemberBinding): Recycle
     }
 
     private fun isSubscriptionFinished(date: Long): Boolean {
-        if (System.currentTimeMillis() < date){
+        if (System.currentTimeMillis() > date){
             return true
         }
         return false

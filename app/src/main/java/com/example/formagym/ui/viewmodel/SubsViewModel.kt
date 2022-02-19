@@ -1,18 +1,23 @@
 package com.example.formagym.ui.viewmodel
 
+import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.formagym.isOutdated
 import com.example.formagym.pojo.datasource.FormaDatabase
 import com.example.formagym.pojo.model.Member
 import kotlinx.coroutines.launch
+import java.util.function.Predicate
 
 class SubsViewModel(dataSource: FormaDatabase) : ViewModel() {
     private val _activeSubs = MutableLiveData<List<Member>>(mutableListOf())
     val activeSubs: LiveData<List<Member>> = _activeSubs
     private val _inactiveSubs = MutableLiveData<List<Member>>(mutableListOf())
     val inactiveSubs: LiveData<List<Member>> = _inactiveSubs
+    private val _selectedMember = MutableLiveData<Member?>(null)
+    val selectedMember: LiveData<Member?> = _selectedMember
     private val db = dataSource.getDao()
 
 
@@ -30,26 +35,51 @@ class SubsViewModel(dataSource: FormaDatabase) : ViewModel() {
         return inactiveSubs
     }
 
-    fun dummyData(): MutableList<Member> {
-        return mutableListOf<Member>().apply {
-            repeat(10) {
-                add(
-                    Member(
-                        "Muhammed Salman",
-                        System.currentTimeMillis() - 100000000,
-                        System.currentTimeMillis() - 1000,
-                    )
-                )
+    fun save(member: Member) {
+        viewModelScope.launch {
+            db.save(member)
+        }
+
+        if (_selectedMember.value == null) {
+            if (isOutdated(member.subscribeEndDate)) {
+                val list = _inactiveSubs.value!!.toMutableList().apply { add(member) }
+                _inactiveSubs.postValue(list)
+            } else {
+                val list = activeSubs.value!!.toMutableList().apply { add(member) }
+                _activeSubs.postValue(list)
             }
-            val cTime = System.currentTimeMillis().minus(423110)
-            val lTime = System.currentTimeMillis().plus(42311023)
-            add(
-                Member(
-                    "Osama Bin Ladin",
-                    cTime,
-                    lTime
-                )
-            )
+        } else {
+            var list = _inactiveSubs.value!!.toMutableList()
+            val mMember =_selectedMember.value
+            if (list.contains(mMember)) {
+                if (!isOutdated(member.subscribeEndDate)) {
+                    list.remove(mMember)
+                    _inactiveSubs.postValue(list)
+                    list = _activeSubs.value!!.toMutableList().apply { add(mMember!!) }
+                    _activeSubs.postValue(list)
+                }
+            }
+        }
+    }
+
+    fun onViewDetails(member: Member) {
+        _selectedMember.postValue(member)
+    }
+
+    fun onNewMember() {
+        _selectedMember.postValue(null)
+    }
+
+    fun remove(member: Member) {
+        viewModelScope.launch {
+            db.remove(member)
+        }
+        if (isOutdated(member.subscribeEndDate)) {
+            val list = _inactiveSubs.value!!.toMutableList().apply { remove(member) }
+            _inactiveSubs.postValue(list)
+        } else {
+            val list = activeSubs.value!!.toMutableList().apply { remove(member) }
+            _activeSubs.postValue(list)
         }
 
     }

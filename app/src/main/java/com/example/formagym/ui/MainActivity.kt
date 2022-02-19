@@ -2,7 +2,9 @@ package com.example.formagym.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -27,11 +29,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        NavigationUI.setupWithNavController(binding.bottomNav, navController)
+
         fillMembersLists()
         setInactiveBadge()
-
-        NavigationUI.setupWithNavController(binding.bottomNav, navController)
+        onFragmentChanged()
         onBottomNavItemSelected()
+        onAddFabClicked()
 
     }
 
@@ -44,13 +48,31 @@ class MainActivity : AppCompatActivity() {
     private fun setInactiveBadge() {
         val badge = binding.bottomNav.getOrCreateBadge(R.id.inactive_subs)
         viewModel.inactiveSubs.observe(this) { list ->
+            Log.d("inactiveList", "setInactiveBadge: ${list.size}")
             if (list.isNotEmpty()) {
                 badge.apply {
                     isVisible = true
                     number = list.size
                 }
             }else {
-                binding.bottomNav.removeBadge(R.id.inactive_subs)
+                badge.apply {
+                    isVisible = false
+                    clearNumber()
+                }
+            }
+        }
+    }
+
+    private fun onAddFabClicked() {
+        binding.newMemberFab.setOnClickListener {
+            viewModel.onNewMember()
+            when (navController.currentDestination?.id) {
+                R.id.inactiveFragment -> {
+                    navController.navigate(R.id.action_inactiveFragment_to_detailsFragment)
+                }
+                R.id.activeFragment -> {
+                    navController.navigate(R.id.action_activeFragment_to_detailsFragment)
+                }
             }
         }
     }
@@ -77,5 +99,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun onFragmentChanged() {
+        navController.addOnDestinationChangedListener{ controller, destination, arguments ->
+            when (destination.id) {
+                R.id.detailsFragment -> {
+                    binding.bottomAppbar.visibility = View.INVISIBLE
+                    binding.newMemberFab.visibility = View.INVISIBLE
+
+                }
+                else -> {
+                    binding.bottomAppbar.visibility = View.VISIBLE
+                    binding.newMemberFab.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp()
+    }
 
 }
