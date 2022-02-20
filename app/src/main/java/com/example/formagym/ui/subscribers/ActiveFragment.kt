@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -20,7 +21,7 @@ import com.example.formagym.ui.utils.PreLoadingLinearLayoutManager
 import com.example.formagym.ui.viewmodel.SubsViewModel
 import kotlinx.coroutines.runBlocking
 
-class ActiveFragment : Fragment() {
+class ActiveFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var binding: FragmentSubsBinding
     private val mainViewModel: SubsViewModel by activityViewModels()
     override fun onCreateView(
@@ -29,21 +30,25 @@ class ActiveFragment : Fragment() {
     ): View {
         binding = FragmentSubsBinding.inflate(inflater, container, false)
         binding.progressBar.visibility = View.VISIBLE
-
+        binding.searchActive.setOnQueryTextListener(this)
         val adapter = SubscribersAdapter()
+
+        // On ViewDetails button clicked, it will navigate to details frag
         adapter.onMemberSelected(object : SelectedMember {
             override fun onSelectedMember(member: Member) {
                 mainViewModel.onViewDetails(member)
                 findNavController().navigate(R.id.action_activeFragment_to_detailsFragment)
             }
         })
+
         mainViewModel.activeSubs.observe(this) {
             it?.let {
                 adapter.submitList(it)
                 if (it.isEmpty()) {
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
                     binding.emptyMembers.visibility = View.VISIBLE
                 }else {
+                    binding.progressBar.visibility = View.GONE
                     binding.emptyMembers.visibility = View.GONE
                 }
             }
@@ -81,6 +86,20 @@ class ActiveFragment : Fragment() {
 
     companion object {
         private const val TAG = "SubsFragment"
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        query?.let {
+            mainViewModel.searchActives(query)
+        } ?: mainViewModel.getActiveMembers()
+        return true
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        query?.let {
+            mainViewModel.searchActives(query)
+        } ?: mainViewModel.getInactiveMembers()
+        return true
     }
 
 }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +18,7 @@ import com.example.formagym.ui.subscribers.adapter.SubscribersAdapter
 import com.example.formagym.ui.viewmodel.SubsViewModel
 import kotlinx.coroutines.runBlocking
 
-class InactiveFragment : Fragment() {
+class InactiveFragment : Fragment(), SearchView.OnQueryTextListener {
     private val binding: FragmentInactiveBinding by lazy {
         FragmentInactiveBinding.inflate(LayoutInflater.from(requireContext()))
     }
@@ -27,6 +28,8 @@ class InactiveFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val adapter = SubscribersAdapter()
+        binding.searchInactive.setOnQueryTextListener(this)
+
         adapter.onMemberSelected(object : SelectedMember {
             override fun onSelectedMember(member: Member) {
                 mainViewModel.onViewDetails(member)
@@ -34,11 +37,14 @@ class InactiveFragment : Fragment() {
             }
         })
 
-        mainViewModel.inactiveSubs.observe(requireActivity()) {
-            Log.d("lists", "onCreateView: ${it.toString()}")
+        mainViewModel.inactiveSubs.observe(requireActivity()) { list ->
             runBlocking {
-                adapter.submitList(it)
-
+                adapter.submitList(list)
+                if(list.isNotEmpty()) {
+                    binding.emptyMembers.visibility = View.GONE
+                }else {
+                    binding.emptyMembers.visibility = View.VISIBLE
+                }
             }
         }
 
@@ -54,6 +60,20 @@ class InactiveFragment : Fragment() {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        query?.let {
+            mainViewModel.searchInActives(query)
+        } ?: mainViewModel.getInactiveMembers()
+        return true
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        query?.let {
+            mainViewModel.searchInActives(query)
+        } ?: mainViewModel.getInactiveMembers()
+        return true
     }
 
 

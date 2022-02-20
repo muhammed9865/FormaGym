@@ -9,17 +9,25 @@
         android:background="@drawable/home_bg"
         tools:context=".ui.subscribers.ActiveFragment">
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_active"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            app:searchIcon="@drawable/ic_baseline_search_24"
+            app:layout_constraintTop_toTopOf="parent"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/subs_rv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:elevation="10dp"
+
             app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/search_active" />
 
 
         <TextView

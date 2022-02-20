@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    >
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragments_layout"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresher"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignBottom="@id/coordinatorLayout"
-            android:layout_alignParentTop="true"
-            app:defaultNavHost="true"
-            app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navGraph="@navigation/main_graph" />
+            android:layout_height="match_parent">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragments_layout"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@id/coordinatorLayout"
+                android:layout_alignParentTop="true"
+                app:defaultNavHost="true"
+                app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navGraph="@navigation/main_graph" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
         <com.google.android.material.bottomappbar.BottomAppBar
@@ -45,6 +50,7 @@
             android:id="@+id/new_member_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/image"
             android:src="@drawable/ic_baseline_add_24"
             app:backgroundTint="@color/grey"
             app:layout_anchor="@id/bottomAppbar"

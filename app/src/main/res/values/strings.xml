@@ -22,4 +22,6 @@
     <string name="delete_member">"You are about to delete "</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    <string name="sub_finish">Subscription has ended</string>
+    <string name="image">image</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.formagym.ui.viewmodel
 
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.formagym.isOutdated
 import com.example.formagym.pojo.datasource.FormaDatabase
 import com.example.formagym.pojo.model.Member
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.function.Predicate
 
@@ -50,7 +52,7 @@ class SubsViewModel(dataSource: FormaDatabase) : ViewModel() {
             }
         } else {
             var list = _inactiveSubs.value!!.toMutableList()
-            val mMember =_selectedMember.value
+            val mMember = _selectedMember.value
             if (list.contains(mMember)) {
                 if (!isOutdated(member.subscribeEndDate)) {
                     list.remove(mMember)
@@ -81,6 +83,27 @@ class SubsViewModel(dataSource: FormaDatabase) : ViewModel() {
             val list = activeSubs.value!!.toMutableList().apply { remove(member) }
             _activeSubs.postValue(list)
         }
+    }
 
+    fun searchActives(query: String) {
+        val ct = System.currentTimeMillis()
+        viewModelScope.launch {
+            db.searchActiveMembers(ct, "%$query%").collect {
+                Log.d(TAG, "searchActives: $it")
+                _activeSubs.postValue(it)
+            }
+        }
+    }
+    fun searchInActives(query: String) {
+        val ct = System.currentTimeMillis()
+        viewModelScope.launch {
+            db.searchInActiveMembers(ct, "%$query%").collect {
+                _inactiveSubs.postValue(it)
+            }
+        }
+    }
+
+    companion object {
+        private const val TAG = "SubsViewModel"
     }
 }

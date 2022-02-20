@@ -2,10 +2,8 @@ package com.example.formagym.ui.details
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
-import android.os.MemoryFile
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -45,10 +43,10 @@ class DetailsFragment : Fragment() {
         detailsViewModel.apply {
             with(binding) {
                 photo.observe(this@DetailsFragment) {
-                    it?.let { memberPhotoDetails.load(it) }
+                    it?.let { memberPhotoDetails.load(it) } ?: memberPhotoDetails.load(R.drawable.ic_baseline_person_24)
                 }
                 date.observe(this@DetailsFragment) {
-                    subDurationManual.setText(getData(it))
+                    subDurationManual.setText(getDate(it))
                 }
                 binding.memberName.setText(name.value)
             }
