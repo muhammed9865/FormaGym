@@ -6,7 +6,7 @@
     app:startDestination="@id/activeFragment">
     <fragment
         android:id="@+id/activeFragment"
-        android:name="com.example.formagym.ui.fragment.subscribers.ActiveFragment"
+        android:name="com.example.formagym.ui.fragment.active.ActiveFragment"
         android:label="SubsFragment"
         tools:layout="@layout/fragment_subs">
         <action

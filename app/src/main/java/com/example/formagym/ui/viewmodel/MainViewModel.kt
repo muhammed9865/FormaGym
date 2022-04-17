@@ -1,39 +1,36 @@
 package com.example.formagym.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.formagym.utils.isDateOutdated
 import com.example.formagym.pojo.datasource.FormaDatabase
-import com.example.formagym.pojo.model.Payment
 import com.example.formagym.pojo.model.User
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class SubsViewModel(dataSource: FormaDatabase) : ViewModel() {
-    private val _activeSubs = MutableLiveData<List<User>>(mutableListOf())
-    val activeSubs: LiveData<List<User>> = _activeSubs
-    private val _inactiveSubs = MutableLiveData<List<User>>(mutableListOf())
-    val inactiveSubs: LiveData<List<User>> = _inactiveSubs
-    private val _selectedMember = MutableLiveData<User?>(null)
-    val selectedUser: LiveData<User?> = _selectedMember
+class MainViewModel(dataSource: FormaDatabase) : ViewModel() {
+    private val _activeSubsCount = MutableLiveData(0)
+    val activeSubsCount: LiveData<Int> = _activeSubsCount
+
+    private val _inactiveSubsCount = MutableLiveData(0)
+    val inactiveSubsCount: LiveData<Int> = _inactiveSubsCount
+
+
+    var selectedUserId: Int? = null
     private val db = dataSource.getDao()
 
 
-    fun getActiveMembers(): LiveData<List<User>> {
+    fun getActiveMembersLength() {
         viewModelScope.launch {
-            _activeSubs.value = db.getActiveMembers(System.currentTimeMillis())
+            _activeSubsCount.value = db.getActiveMembersCount(System.currentTimeMillis())
         }
-        return activeSubs
     }
 
-    fun getInactiveMembers(): LiveData<List<User>> {
+    fun getInactiveMembersLength() {
         viewModelScope.launch {
-            _inactiveSubs.value = db.getInActiveMembers(System.currentTimeMillis())
+            _inactiveSubsCount.value = db.getInactiveMembersCount(System.currentTimeMillis())
         }
-        return inactiveSubs
+
     }
 
     /*fun save(user: User) {
@@ -64,29 +61,31 @@ class SubsViewModel(dataSource: FormaDatabase) : ViewModel() {
 */
 
 
-    fun onViewDetails(user: User) {
-        _selectedMember.postValue(user)
+    fun onViewDetails(userId: Int) {
+        selectedUserId = userId
     }
 
     fun onNewMember() {
-        _selectedMember.postValue(null)
+        selectedUserId = null
     }
 
 
-    fun remove(user: User) {
-        viewModelScope.launch {
-            db.removeUser(user)
-        }
-        if (isDateOutdated(user.subscribeEndDate)) {
-            val list = _inactiveSubs.value!!.toMutableList().apply { remove(user) }
-            _inactiveSubs.postValue(list)
-        } else {
-            val list = activeSubs.value!!.toMutableList().apply { remove(user) }
-            _activeSubs.postValue(list)
-        }
-    }
+/*
+//    fun remove(user: User) {
+//        viewModelScope.launch {
+//            db.removeUser(user)
+//        }
+//        if (isDateOutdated(user.subscribeEndDate)) {
+//            val list = _inactiveSubs.value!!.toMutableList().apply { remove(user) }
+//            _inactiveSubs.postValue(list)
+//        } else {
+//            val list = activeSubs.value!!.toMutableList().apply { remove(user) }
+//            _activeSubs.postValue(list)
+//        }
+//    }
+*/
 
-    fun searchActives(query: String) {
+  /*  fun searchActives(query: String) {
         val ct = System.currentTimeMillis()
         viewModelScope.launch {
             db.searchActiveMembers(ct, "%$query%").collect {
@@ -94,16 +93,16 @@ class SubsViewModel(dataSource: FormaDatabase) : ViewModel() {
                 _activeSubs.postValue(it)
             }
         }
-    }
+    }*/
 
-    fun searchInActives(query: String) {
+   /* fun searchInActives(query: String) {
         val ct = System.currentTimeMillis()
         viewModelScope.launch {
             db.searchInActiveMembers(ct, "%$query%").collect {
                 _inactiveSubs.postValue(it)
             }
         }
-    }
+    }*/
 
     companion object {
         private const val TAG = "SubsViewModel"

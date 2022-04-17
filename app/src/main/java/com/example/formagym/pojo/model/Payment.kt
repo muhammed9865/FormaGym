@@ -10,7 +10,7 @@ data class Payment(
     val paymentId: Int? = null,
     val date: Long = System.currentTimeMillis(),
     val moneyPaid: Int,
-    val userId: Int
+    var userId: Int
 ) {
     companion object {
         fun fromDays(userId: Int, timeInMilli: Long): Payment {

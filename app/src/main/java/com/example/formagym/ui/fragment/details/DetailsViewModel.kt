@@ -10,8 +10,6 @@ import com.example.formagym.pojo.datasource.FormaDao
 import com.example.formagym.pojo.model.Payment
 import com.example.formagym.pojo.model.User
 import kotlinx.coroutines.launch
-import java.lang.Exception
-import java.util.*
 
 class DetailsViewModel constructor(private val dao: FormaDao) : ViewModel() {
     private var memberName = MutableLiveData<String>()
@@ -22,6 +20,9 @@ class DetailsViewModel constructor(private val dao: FormaDao) : ViewModel() {
     val date: LiveData<Long> = memberSubDate
     private var payment: Payment? = null
     var userId: Int? = null
+    private var _selectedUser = MutableLiveData<User?>()
+    val selectedUser: LiveData<User?> = _selectedUser
+
 
     fun setName(text: String) {
         memberName.postValue(text)
@@ -33,13 +34,26 @@ class DetailsViewModel constructor(private val dao: FormaDao) : ViewModel() {
     }
 
     fun setSubDate(date: Long) {
-        userId?.let { payment = Payment.fromDays(it, date) }
         memberSubDate.postValue(date)
+        userId?.let {
+            payment = Payment.fromDays(it, date)
+        } ?: Payment.fromDays(-1, date).also {
+            // To handle payment being null if user isn't editing.
+            // Handled in FormaDao.
+            payment = it
+        }
     }
 
     fun setSubDate(date: Long, months: Int) {
-        userId?.let { payment = Payment.fromMonths(it, months) }
         memberSubDate.value = date
+        userId?.let {
+            payment = Payment.fromMonths(it, months)
+        } ?: Payment.fromMonths(-1, months).also {
+            // To handle payment being null if user isn't editing.
+            // Handled in FormaDao.
+            payment = it
+        }
+
 
     }
 
@@ -48,10 +62,10 @@ class DetailsViewModel constructor(private val dao: FormaDao) : ViewModel() {
         Log.d("image", "deletePhoto: ${memberPhoto.value.toString()}")
     }
 
-    fun saveMember(user: User?) {
+    fun saveMember() {
         viewModelScope.launch {
             val ct = System.currentTimeMillis()
-            user?.let {
+            selectedUser.value?.let {
                 val editedMember = it
                 editedMember.apply {
                     name = memberName.value!!
@@ -60,13 +74,37 @@ class DetailsViewModel constructor(private val dao: FormaDao) : ViewModel() {
                     subscribeEndDate = memberSubDate.value!!
                 }
 
+                Log.d(TAG, "saveMember: $editedMember")
                 // If payment is set, then save the user with payment.
-                payment?.let { payment -> dao.saveUserWithPayment(editedMember, payment) }
+                payment?.let { payment ->
+                    Log.d(TAG, "saveMember: $payment")
+                    dao.saveUserWithPayment(editedMember, payment)
+                }
 
             } ?: if (!memberName.value.isNullOrEmpty() && memberSubDate.value != null) {
                 val newUser = User(memberName.value!!, ct, memberSubDate.value!!, memberPhoto.value)
-                payment?.let { payment -> dao.saveUserWithPayment(newUser, payment) }
+                Log.d(TAG, "saveNewUser`: $newUser")
+                payment?.let { payment ->
+                    Log.d(TAG, "saveMember: $payment")
+                    dao.saveUserWithPayment(newUser, payment)
+                }
             }
+        }
+    }
+
+    fun deleteMember() {
+        viewModelScope.launch {
+            _selectedUser.value?.let {
+                dao.removeUser(it)
+            }
+        }
+    }
+
+
+    fun searchIfUserExists(userId: Int) {
+        this.userId = userId
+        viewModelScope.launch {
+            _selectedUser.value = dao.getUserByID(userId)
         }
     }
 

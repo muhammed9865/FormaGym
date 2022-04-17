@@ -7,21 +7,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.formagym.R
 import com.example.formagym.databinding.FragmentInactiveBinding
+import com.example.formagym.pojo.datasource.FormaDatabase
 import com.example.formagym.pojo.model.User
-import com.example.formagym.ui.fragment.subscribers.adapter.SelectedMember
-import com.example.formagym.ui.fragment.subscribers.adapter.SubscribersAdapter
-import com.example.formagym.ui.viewmodel.SubsViewModel
-import kotlinx.coroutines.runBlocking
+import com.example.formagym.ui.fragment.active.adapter.SelectedMember
+import com.example.formagym.ui.fragment.active.adapter.SubscribersAdapter
+import com.example.formagym.ui.fragment.inactive.viewmodel.InactiveViewModel
+import com.example.formagym.ui.fragment.inactive.viewmodel.InactiveViewModelFactory
+import com.example.formagym.ui.viewmodel.MainViewModel
 
 class InactiveFragment : Fragment(), SearchView.OnQueryTextListener {
     private val binding: FragmentInactiveBinding by lazy {
         FragmentInactiveBinding.inflate(LayoutInflater.from(requireContext()))
     }
-    private val mainViewModel: SubsViewModel by activityViewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val viewModel: InactiveViewModel by viewModels {
+        InactiveViewModelFactory(FormaDatabase.getInstance(requireContext()))
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,13 +36,13 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.searchInactive.setOnQueryTextListener(this)
 
         adapter.onMemberSelected(object : SelectedMember {
-            override fun onSelectedMember(user: User) {
-                mainViewModel.onViewDetails(user)
+            override fun onSelectedMember(userId: Int) {
+                mainViewModel.onViewDetails(userId)
                 findNavController().navigate(R.id.action_inactiveFragment_to_detailsFragment)
             }
         })
 
-        mainViewModel.inactiveSubs.observe(requireActivity()) { list ->
+        viewModel.inactiveMembers.observe(requireActivity()) { list ->
                 adapter.submitList(list)
                 if(list.isNotEmpty()) {
                     binding.emptyMembers.visibility = View.GONE
@@ -61,15 +67,15 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         query?.let {
-            mainViewModel.searchInActives(query)
-        } ?: mainViewModel.getInactiveMembers()
+            viewModel.searchActiveMembers(query)
+        } ?: viewModel.getInactiveMembers()
         return true
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
         query?.let {
-            mainViewModel.searchInActives(query)
-        } ?: mainViewModel.getInactiveMembers()
+            viewModel.searchActiveMembers(query)
+        } ?: viewModel.getInactiveMembers()
         return true
     }
 

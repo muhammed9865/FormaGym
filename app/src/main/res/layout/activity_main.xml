@@ -7,12 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/refresher"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragments_layout"
                 android:name="androidx.navigation.fragment.NavHostFragment"
@@ -24,7 +18,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
                 app:layout_constraintTop_toTopOf="parent"
                 app:navGraph="@navigation/main_graph" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 
         <com.google.android.material.bottomappbar.BottomAppBar

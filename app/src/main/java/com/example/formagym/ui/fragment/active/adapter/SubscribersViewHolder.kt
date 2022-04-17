@@ -1,4 +1,4 @@
-package com.example.formagym.ui.fragment.subscribers.adapter
+package com.example.formagym.ui.fragment.active.adapter
 
 import android.graphics.Color
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +23,7 @@ class SubscribersViewHolder(private val binding: ListItemMemberBinding): Recycle
 
         user.memberPhoto?.let { memberPhoto.load(it) }
         memberShowDetails.setOnClickListener {
-            selectedMember?.onSelectedMember(user)
+            selectedMember?.onSelectedMember(user.id)
         }
     }
 

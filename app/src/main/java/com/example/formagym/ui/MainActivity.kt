@@ -1,26 +1,25 @@
 package com.example.formagym.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.formagym.R
 import com.example.formagym.databinding.ActivityMainBinding
 import com.example.formagym.pojo.datasource.FormaDatabase
-import com.example.formagym.ui.viewmodel.SubsViewModel
-import com.example.formagym.ui.viewmodel.SubsViewModelFactory
+import com.example.formagym.ui.viewmodel.MainViewModel
+import com.example.formagym.ui.viewmodel.MainViewModelFactory
 
-class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
+class MainActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityMainBinding.inflate(LayoutInflater.from(this))
     }
-    private val viewModel: SubsViewModel by viewModels {
-        SubsViewModelFactory(FormaDatabase.getInstance(this))
+    private val viewModel: MainViewModel by viewModels {
+        MainViewModelFactory(FormaDatabase.getInstance(this))
     }
     private val navController: NavController by lazy {
         val navHostFragment =
@@ -33,14 +32,15 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         setContentView(binding.root)
         NavigationUI.setupWithNavController(binding.bottomNav, navController)
 
-        fillMembersLists()
+        viewModel.getActiveMembersLength()
+        viewModel.getInactiveMembersLength()
+
         setInactiveBadge()
         setActiveBadge()
         onFragmentChanged()
         onBottomNavItemSelected()
         onAddFabClicked()
 
-        binding.refresher.setOnRefreshListener(this)
 
 
 
@@ -73,20 +73,15 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     }*/
 
     // Will get the lists from the db and set it into the viewmodel
-    private fun fillMembersLists() {
-        binding.refresher.isRefreshing = true
-        viewModel.getActiveMembers()
-        viewModel.getInactiveMembers()
-        binding.refresher.isRefreshing = false
-    }
+
 
     private fun setInactiveBadge() {
         val badge = binding.bottomNav.getOrCreateBadge(R.id.inactive_subs)
-        viewModel.inactiveSubs.observe(this) { list ->
-            if (list.isNotEmpty()) {
+        viewModel.inactiveSubsCount.observe(this) { count ->
+            if (count > 0) {
                 badge.apply {
                     isVisible = true
-                    number = list.size
+                    number = count
                 }
             } else {
                 badge.apply {
@@ -99,11 +94,11 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
     private fun setActiveBadge() {
         val badge = binding.bottomNav.getOrCreateBadge(R.id.active)
-        viewModel.activeSubs.observe(this) { list ->
-            if (list.isNotEmpty()) {
+        viewModel.activeSubsCount.observe(this) { count ->
+            if (count > 0) {
                 badge.apply {
                     isVisible = true
-                    number = list.size
+                    number = count
                 }
             } else {
                 badge.apply {
@@ -170,9 +165,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
         return navController.navigateUp()
     }
 
-    override fun onRefresh() {
-        fillMembersLists()
-    }
+
 
     companion object {
         private const val TAG = "MainActivity"

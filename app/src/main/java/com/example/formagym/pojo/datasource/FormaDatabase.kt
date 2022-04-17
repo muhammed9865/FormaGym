@@ -7,10 +7,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.formagym.Constants
 import com.example.formagym.pojo.datasource.converter.PhotoConverter
+import com.example.formagym.pojo.model.Payment
 import com.example.formagym.pojo.model.User
 
 @Database(
-    entities = [User::class],
+    entities = [User::class, Payment::class],
     version = Constants.DATABASE_VERSION,
 )
 @TypeConverters(PhotoConverter::class)
@@ -23,7 +24,9 @@ abstract class FormaDatabase() : RoomDatabase() {
         @Volatile
         private var instance: FormaDatabase? = null
         fun getInstance(context: Context) = instance ?: synchronized(this) {
-            instance ?: buildDatabase(context)
+            instance ?: buildDatabase(context).also {
+                instance = it
+            }
         }
 
         private fun buildDatabase(context: Context) = Room.databaseBuilder(

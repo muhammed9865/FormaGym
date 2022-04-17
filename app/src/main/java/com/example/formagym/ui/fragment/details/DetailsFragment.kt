@@ -18,10 +18,11 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.formagym.*
 import com.example.formagym.databinding.FragmentDetailsBinding
+import com.example.formagym.pojo.datasource.FormaDatabase
 import com.example.formagym.pojo.model.User
 import com.example.formagym.utils.checkForPermission
 import com.example.formagym.utils.showError
-import com.example.formagym.ui.viewmodel.SubsViewModel
+import com.example.formagym.ui.viewmodel.MainViewModel
 import com.example.formagym.utils.getDateAsString
 import java.util.*
 
@@ -30,8 +31,10 @@ class DetailsFragment : Fragment() {
     private val binding: FragmentDetailsBinding by lazy {
         FragmentDetailsBinding.inflate(LayoutInflater.from(requireContext()))
     }
-    private val mainViewModel: SubsViewModel by activityViewModels()
-    private val detailsViewModel: DetailsViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val detailsViewModel: DetailsViewModel by viewModels {
+        DetailsViewModelFactory(FormaDatabase.getInstance(requireContext()))
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,6 +61,12 @@ class DetailsFragment : Fragment() {
         }
 
         editMemberIfNotNull()
+        detailsViewModel.selectedUser.observe(viewLifecycleOwner) { user ->
+            user?.let {
+                showEditControls(it)
+                setMemberDetails(it)
+            }
+        }
 
         // onClick Listeners
         binding.apply {
@@ -69,8 +78,7 @@ class DetailsFragment : Fragment() {
                 selectDateManually()
             }
             saveDetails.setOnClickListener {
-                val member = mainViewModel.selectedUser.value
-                detailsViewModel.saveMember(member).let {
+                detailsViewModel.saveMember().let {
                     findNavController().navigateUp()
                 } ?: showError(binding.root, getString(R.string.error_message))
             }
@@ -150,11 +158,8 @@ class DetailsFragment : Fragment() {
 
 
     private fun editMemberIfNotNull() {
-        mainViewModel.selectedUser.observe(requireActivity()) { member ->
-            member?.let {
-                showEditControls(member)
-                setMemberDetails(member)
-            }
+        mainViewModel.selectedUserId?.let { userId ->
+                detailsViewModel.searchIfUserExists(userId)
         }
     }
 
@@ -167,7 +172,7 @@ class DetailsFragment : Fragment() {
                     .setTitle("Deleting Subscriber")
                     .setMessage(getString(R.string.delete_member) + user.name)
                     .setPositiveButton(getString(R.string.delete)) { d, _ ->
-                        mainViewModel.remove(user)
+                        detailsViewModel.deleteMember()
                         d.dismiss()
                         d.cancel()
                         findNavController().navigateUp()
