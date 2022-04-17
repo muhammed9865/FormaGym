@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/home_bg"
-        tools:context=".ui.inactive.InactiveFragment">
+        tools:context=".ui.fragment.inactive.InactiveFragment">
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_inactive"
             android:layout_width="match_parent"

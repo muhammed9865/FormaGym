@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 import org.jetbrains.annotations.Nullable
 
 @Entity(tableName = "members_table")
-data class Member(
+data class User(
     var name: String,
     var subscribeStartDate: Long,
     var subscribeEndDate: Long,
@@ -41,12 +41,12 @@ data class Member(
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Member> {
-        override fun createFromParcel(parcel: Parcel): Member {
-            return Member(parcel)
+    companion object CREATOR : Parcelable.Creator<User> {
+        override fun createFromParcel(parcel: Parcel): User {
+            return User(parcel)
         }
 
-        override fun newArray(size: Int): Array<Member?> {
+        override fun newArray(size: Int): Array<User?> {
             return arrayOfNulls(size)
         }
     }

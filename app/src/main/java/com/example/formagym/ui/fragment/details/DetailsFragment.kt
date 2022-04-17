@@ -1,4 +1,4 @@
-package com.example.formagym.ui.details
+package com.example.formagym.ui.fragment.details
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -18,8 +18,11 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.formagym.*
 import com.example.formagym.databinding.FragmentDetailsBinding
-import com.example.formagym.pojo.model.Member
+import com.example.formagym.pojo.model.User
+import com.example.formagym.utils.checkForPermission
+import com.example.formagym.utils.showError
 import com.example.formagym.ui.viewmodel.SubsViewModel
+import com.example.formagym.utils.getDateAsString
 import java.util.*
 
 
@@ -42,11 +45,13 @@ class DetailsFragment : Fragment() {
         // Observing on views
         detailsViewModel.apply {
             with(binding) {
-                photo.observe(this@DetailsFragment) {
+                photo.observe(viewLifecycleOwner) {
                     it?.let { memberPhotoDetails.load(it) } ?: memberPhotoDetails.load(R.drawable.ic_baseline_person_24)
                 }
-                date.observe(this@DetailsFragment) {
-                    subDurationManual.setText(getDate(it))
+                date.observe(viewLifecycleOwner) {
+                    Log.d(TAG, "selectDate: ${it}")
+                    subDurationManual.setText(getDateAsString(it))
+
                 }
                 binding.memberName.setText(name.value)
             }
@@ -64,9 +69,8 @@ class DetailsFragment : Fragment() {
                 selectDateManually()
             }
             saveDetails.setOnClickListener {
-                val member = mainViewModel.selectedMember.value
-                detailsViewModel.saveMember(member)?.let {
-                    mainViewModel.save(it)
+                val member = mainViewModel.selectedUser.value
+                detailsViewModel.saveMember(member).let {
                     findNavController().navigateUp()
                 } ?: showError(binding.root, getString(R.string.error_message))
             }
@@ -119,13 +123,14 @@ class DetailsFragment : Fragment() {
                 set(Calendar.YEAR, datePicker.year)
                 set(Calendar.MONTH, datePicker.month)
                 set(Calendar.DAY_OF_MONTH, datePicker.dayOfMonth)
-                Log.d(TAG, "selectDate: ${cal.timeInMillis}")
-                binding.subDurationManual.text?.clear()
-                detailsViewModel.setSubDate(cal.timeInMillis)
+                Log.d(TAG, "selectDate: $timeInMillis")
+               // binding.subDurationManual.text?.clear()
+                detailsViewModel.setSubDate(timeInMillis)
                 binding.subDurationRg.clearCheck()
             }
 
         }, year, month, day)
+        // Setting the minium date to be chosen to today's date.
         datePicker.datePicker.minDate = cal.timeInMillis
         datePicker.show()
     }
@@ -136,16 +141,16 @@ class DetailsFragment : Fragment() {
             val month = Constants.MONTH_IN_MILLI
             binding.subDurationManual.text?.clear()
             when (radioGroup.checkedRadioButtonId) {
-                R.id.sub_1_month -> detailsViewModel.setSubDate(current + month)
-                R.id.sub_2_month -> detailsViewModel.setSubDate(current + (month * 2))
-                R.id.sub_3_month -> detailsViewModel.setSubDate(current + (month * 3))
+                R.id.sub_1_month -> detailsViewModel.setSubDate(current + (month.floorDiv(2)))
+                R.id.sub_2_month -> detailsViewModel.setSubDate(current + (month), 1)
+                R.id.sub_3_month -> detailsViewModel.setSubDate(current + (month * 2), 2)
             }
         }
     }
 
 
     private fun editMemberIfNotNull() {
-        mainViewModel.selectedMember.observe(requireActivity()) { member ->
+        mainViewModel.selectedUser.observe(requireActivity()) { member ->
             member?.let {
                 showEditControls(member)
                 setMemberDetails(member)
@@ -153,16 +158,16 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun showEditControls(member: Member) {
+    private fun showEditControls(user: User) {
         binding.removeMember.apply {
             visibility = View.VISIBLE
             setOnClickListener {
                 AlertDialog.Builder(requireContext())
                     .setIcon(R.drawable.exclamation)
                     .setTitle("Deleting Subscriber")
-                    .setMessage(getString(R.string.delete_member) + member.name)
+                    .setMessage(getString(R.string.delete_member) + user.name)
                     .setPositiveButton(getString(R.string.delete)) { d, _ ->
-                        mainViewModel.remove(member)
+                        mainViewModel.remove(user)
                         d.dismiss()
                         d.cancel()
                         findNavController().navigateUp()
@@ -174,12 +179,13 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun setMemberDetails(member: Member) {
+    private fun setMemberDetails(user: User) {
         detailsViewModel.apply {
-            member.memberPhoto?.let { setPhoto(it) }
-            setName(member.name)
-            binding.memberName.setText(member.name)
-            setSubDate(member.subscribeEndDate)
+            userId = user.id
+            user.memberPhoto?.let { setPhoto(it) }
+            setName(user.name)
+            binding.memberName.setText(user.name)
+            setSubDate(user.subscribeEndDate)
         }
     }
 

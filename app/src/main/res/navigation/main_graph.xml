@@ -6,7 +6,7 @@
     app:startDestination="@id/activeFragment">
     <fragment
         android:id="@+id/activeFragment"
-        android:name="com.example.formagym.ui.subscribers.ActiveFragment"
+        android:name="com.example.formagym.ui.fragment.subscribers.ActiveFragment"
         android:label="SubsFragment"
         tools:layout="@layout/fragment_subs">
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/inactiveFragment"
-        android:name="com.example.formagym.ui.inactive.InactiveFragment"
+        android:name="com.example.formagym.ui.fragment.inactive.InactiveFragment"
         android:label="fragment_inactive"
         tools:layout="@layout/fragment_inactive" >
         <action
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.formagym.ui.details.DetailsFragment"
+        android:name="com.example.formagym.ui.fragment.details.DetailsFragment"
         android:label="DetailsFragment"
         tools:layout="@layout/fragment_details"/>
 </navigation>

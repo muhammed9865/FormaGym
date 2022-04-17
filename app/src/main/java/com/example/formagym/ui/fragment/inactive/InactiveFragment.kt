@@ -1,7 +1,6 @@
-package com.example.formagym.ui.inactive
+package com.example.formagym.ui.fragment.inactive
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.formagym.R
 import com.example.formagym.databinding.FragmentInactiveBinding
-import com.example.formagym.pojo.model.Member
-import com.example.formagym.ui.subscribers.adapter.SelectedMember
-import com.example.formagym.ui.subscribers.adapter.SubscribersAdapter
+import com.example.formagym.pojo.model.User
+import com.example.formagym.ui.fragment.subscribers.adapter.SelectedMember
+import com.example.formagym.ui.fragment.subscribers.adapter.SubscribersAdapter
 import com.example.formagym.ui.viewmodel.SubsViewModel
 import kotlinx.coroutines.runBlocking
 
@@ -31,21 +30,19 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.searchInactive.setOnQueryTextListener(this)
 
         adapter.onMemberSelected(object : SelectedMember {
-            override fun onSelectedMember(member: Member) {
-                mainViewModel.onViewDetails(member)
+            override fun onSelectedMember(user: User) {
+                mainViewModel.onViewDetails(user)
                 findNavController().navigate(R.id.action_inactiveFragment_to_detailsFragment)
             }
         })
 
         mainViewModel.inactiveSubs.observe(requireActivity()) { list ->
-            runBlocking {
                 adapter.submitList(list)
                 if(list.isNotEmpty()) {
                     binding.emptyMembers.visibility = View.GONE
                 }else {
                     binding.emptyMembers.visibility = View.VISIBLE
                 }
-            }
         }
 
         setupInactiveRv(adapter)

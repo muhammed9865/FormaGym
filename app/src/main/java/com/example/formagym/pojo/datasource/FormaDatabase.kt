@@ -7,10 +7,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.formagym.Constants
 import com.example.formagym.pojo.datasource.converter.PhotoConverter
-import com.example.formagym.pojo.model.Member
+import com.example.formagym.pojo.model.User
 
 @Database(
-    entities = [Member::class],
+    entities = [User::class],
     version = Constants.DATABASE_VERSION,
 )
 @TypeConverters(PhotoConverter::class)

@@ -1,4 +1,4 @@
-package com.example.formagym.ui.utils
+package com.example.formagym.utils
 
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager

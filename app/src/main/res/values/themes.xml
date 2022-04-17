@@ -14,6 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="android:windowIsTranslucent">true</item>
         <item name="background">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/grey</item>
     </style>
 
     <style name="et_style">

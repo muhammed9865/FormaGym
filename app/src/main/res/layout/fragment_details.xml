@@ -2,12 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
-
         <variable
             name="viewModel"
-            type="com.example.formagym.ui.details.DetailsViewModel" />
+            type="com.example.formagym.ui.fragment.details.DetailsViewModel" />
     </data>
 
     <ScrollView
@@ -19,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            tools:context=".ui.details.DetailsFragment">
+            tools:context=".ui.fragment.details.DetailsFragment">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/photo_layout"
@@ -140,18 +138,18 @@
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/sub_1_month"
                             style="@style/subscribe_month_rb"
-                            android:text="@string/month"
+                            android:text="@string/half_month"
                             tools:checked="true" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/sub_2_month"
                             style="@style/subscribe_month_rb"
-                            android:text="@string/_2_months" />
+                            android:text="@string/month" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/sub_3_month"
                             style="@style/subscribe_month_rb"
-                            android:text="@string/_3_months" />
+                            android:text="@string/_2_months" />
                     </RadioGroup>
 
                     <View

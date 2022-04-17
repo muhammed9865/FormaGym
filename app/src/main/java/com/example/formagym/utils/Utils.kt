@@ -1,23 +1,17 @@
-package com.example.formagym
+package com.example.formagym.utils
 
-import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import coil.ImageLoader
-import coil.request.ImageRequest
-import coil.request.SuccessResult
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-fun getDate(milliseconds: Long): String {
+fun getDateAsString(milliseconds: Long): String {
     val sdf = SimpleDateFormat("d MMM, yyyy", Locale.getDefault())
     val calendar = Calendar.getInstance()
     calendar.timeInMillis = milliseconds
@@ -39,7 +33,7 @@ fun Fragment.checkForPermission(string: String): Boolean {
     return false
 }
 
-fun isOutdated(time: Long) = time < System.currentTimeMillis()
+fun isDateOutdated(time: Long) = time < System.currentTimeMillis()
 
 
 

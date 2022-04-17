@@ -1,12 +1,7 @@
 package com.example.formagym.ui
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
@@ -14,18 +9,11 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.formagym.Constants
 import com.example.formagym.R
 import com.example.formagym.databinding.ActivityMainBinding
-import com.example.formagym.getDate
 import com.example.formagym.pojo.datasource.FormaDatabase
-import com.example.formagym.ui.utils.NotificationHelper
 import com.example.formagym.ui.viewmodel.SubsViewModel
 import com.example.formagym.ui.viewmodel.SubsViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     private val binding by lazy {

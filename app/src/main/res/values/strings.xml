@@ -24,4 +24,6 @@
     <string name="cancel">Cancel</string>
     <string name="sub_finish">Subscription has ended</string>
     <string name="image">image</string>
+    <string name="half_month">15 Days</string>
+
 </resources>
