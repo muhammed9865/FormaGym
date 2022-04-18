@@ -7,6 +7,7 @@
   - Capture Person Photo
   - Add Person details
   - Add Subscription End Date with Fixed-Date or Manual
+  - Save Payments
   - CRUD
 * Active Subscribers List and Inactive Subscribers List
 * Active Sub moves to inactive when Sub Date is over
