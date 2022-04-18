@@ -1,4 +1,4 @@
-package com.example.formagym.ui.fragment.active.adapter
+package com.example.formagym.ui.adapter.subsadapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

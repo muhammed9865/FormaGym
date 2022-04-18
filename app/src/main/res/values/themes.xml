@@ -15,10 +15,18 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="background">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/grey</item>
+        <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>
     </style>
 
-    <style name="et_style">
-        <item name="hintTextColor">@color/grey</item>
-        <item name="strokeColor">@color/grey</item>
+    <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="android:background">@color/gold</item>
+        <item name="itemTextColor">@color/bottom_nav_color_state</item>
+        <item name="itemIconTint">@color/bottom_nav_color_state</item>
+    </style>
+
+    <style name="et_style" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
+        <item name="hintTextColor">@color/gold</item>
+        <item name="boxStrokeColor">#fff</item>
+        <item name="boxStrokeWidth">2dp</item>
     </style>
 </resources>

@@ -44,4 +44,9 @@
         android:name="com.example.formagym.ui.fragment.details.DetailsFragment"
         android:label="DetailsFragment"
         tools:layout="@layout/fragment_details"/>
+    <fragment
+        android:id="@+id/incomeFragment"
+        android:name="com.example.formagym.ui.fragment.income.IncomeFragment"
+        android:label="IncomeFragment"
+        tools:layout="@layout/fragment_income"/>
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.formagym.ui.fragment.active.adapter
+package com.example.formagym.ui.adapter.subsadapter
 
 import android.graphics.Color
 import androidx.recyclerview.widget.RecyclerView

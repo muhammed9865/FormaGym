@@ -1,14 +1,17 @@
-package com.example.formagym.ui.viewmodel
+package com.example.formagym.ui.mainviewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.formagym.pojo.datasource.FormaDao
 import com.example.formagym.pojo.datasource.FormaDatabase
-import com.example.formagym.pojo.model.User
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(dataSource: FormaDatabase) : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(private val db: FormaDao) : ViewModel() {
     private val _activeSubsCount = MutableLiveData(0)
     val activeSubsCount: LiveData<Int> = _activeSubsCount
 
@@ -17,7 +20,7 @@ class MainViewModel(dataSource: FormaDatabase) : ViewModel() {
 
 
     var selectedUserId: Int? = null
-    private val db = dataSource.getDao()
+
 
 
     fun getActiveMembersLength() {

@@ -10,30 +10,37 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.formagym.R
 import com.example.formagym.databinding.FragmentInactiveBinding
-import com.example.formagym.pojo.datasource.FormaDatabase
-import com.example.formagym.pojo.model.User
-import com.example.formagym.ui.fragment.active.adapter.SelectedMember
-import com.example.formagym.ui.fragment.active.adapter.SubscribersAdapter
-import com.example.formagym.ui.fragment.inactive.viewmodel.InactiveViewModel
-import com.example.formagym.ui.fragment.inactive.viewmodel.InactiveViewModelFactory
-import com.example.formagym.ui.viewmodel.MainViewModel
+import com.example.formagym.ui.adapter.subsadapter.SelectedMember
+import com.example.formagym.ui.adapter.subsadapter.SubscribersAdapter
+import com.example.formagym.ui.mainviewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class InactiveFragment : Fragment(), SearchView.OnQueryTextListener {
+@AndroidEntryPoint
+class InactiveFragment : Fragment(), SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
     private val binding: FragmentInactiveBinding by lazy {
         FragmentInactiveBinding.inflate(LayoutInflater.from(requireContext()))
     }
     private val mainViewModel: MainViewModel by activityViewModels()
-    private val viewModel: InactiveViewModel by viewModels {
-        InactiveViewModelFactory(FormaDatabase.getInstance(requireContext()))
-    }
+    private val viewModel: InactiveViewModel by viewModels()
+    @Inject
+    private lateinit var adapter: SubscribersAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val adapter = SubscribersAdapter()
-        binding.searchInactive.setOnQueryTextListener(this)
+
+        binding.apply {
+            searchInactive.setOnQueryTextListener(this@InactiveFragment)
+            inactiveRefresher.setOnRefreshListener(this@InactiveFragment)
+        }
+
+        viewModel.getInactiveMembers()
+        mainViewModel.getInactiveMembersLength()
 
         adapter.onMemberSelected(object : SelectedMember {
             override fun onSelectedMember(userId: Int) {
@@ -44,6 +51,7 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener {
 
         viewModel.inactiveMembers.observe(requireActivity()) { list ->
                 adapter.submitList(list)
+            binding.inactiveRefresher.isRefreshing = false
                 if(list.isNotEmpty()) {
                     binding.emptyMembers.visibility = View.GONE
                 }else {
@@ -53,8 +61,7 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener {
 
         setupInactiveRv(adapter)
 
-        // setupInactiveRv(adapter)
-        // Inflate the layout for this fragment
+
         return binding.root
     }
 
@@ -77,6 +84,12 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener {
             viewModel.searchActiveMembers(query)
         } ?: viewModel.getInactiveMembers()
         return true
+    }
+
+    override fun onRefresh() {
+        viewModel.getInactiveMembers()
+        mainViewModel.getInactiveMembersLength()
+        binding.inactiveRefresher.isRefreshing = false
     }
 
 

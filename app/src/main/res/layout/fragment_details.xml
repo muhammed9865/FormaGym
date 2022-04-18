@@ -2,11 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.formagym.ui.fragment.details.DetailsViewModel" />
-    </data>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,13 +19,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/boxes_margin"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/boxes_margin"
                 app:cardBackgroundColor="@color/gold"
                 app:cardCornerRadius="@dimen/boxes_radius"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/navigateUpBtn">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -40,9 +34,9 @@
                         android:id="@+id/member_photo_details"
                         android:layout_width="@dimen/_80sdp"
                         android:layout_height="@dimen/_100sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
                         android:src="@drawable/ic_baseline_person_24"
                         app:civ_circle_background_color="#783D3B3B"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,16 +44,16 @@
                         android:id="@+id/take_photo_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_12sdp"
+                        android:padding="@dimen/_8sdp"
                         android:text="@string/take_photo"
                         android:textAllCaps="false"
                         app:backgroundTint="@color/grey"
                         app:cornerRadius="@dimen/button_radius"
                         app:icon="@drawable/ic_baseline_camera_alt_24"
                         app:iconGravity="textEnd"
+                        app:layout_constraintBottom_toTopOf="@+id/clear_photo_btn"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/member_photo_details" />
+                        app:layout_constraintStart_toEndOf="@+id/member_photo_details" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/clear_photo_btn"
@@ -69,19 +63,16 @@
                         android:text="@string/clear_photo"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/take_photo_btn"
-                        app:layout_constraintStart_toStartOf="@+id/take_photo_btn"
-                        app:layout_constraintTop_toBottomOf="@+id/take_photo_btn" />
+                        app:layout_constraintStart_toStartOf="@+id/take_photo_btn" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/member_details"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/boxes_margin"
-                app:cardBackgroundColor="@color/gold"
-                app:cardCornerRadius="@dimen/boxes_radius"
+                style="@style/details_card_style"
+                android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/photo_layout">
@@ -128,7 +119,7 @@
                     <RadioGroup
                         android:id="@+id/sub_duration_rg"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_40sdp"
                         android:layout_marginTop="8dp"
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
@@ -184,18 +175,16 @@
                         android:layout_marginTop="8dp"
                         android:text="@string/or"
                         android:textColor="@color/grey"
-                        android:textSize="@dimen/_14ssp"
+                        android:textSize="@dimen/_12ssp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/sub_duration_rg" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/textInputLayout2"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_16sdp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="@dimen/_16sdp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginBottom="9dp"
                         android:theme="@style/et_style"
                         app:boxBackgroundMode="outline"
@@ -206,8 +195,8 @@
                         app:boxStrokeColor="@color/grey"
                         app:hintTextColor="@color/grey"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/view"
+                        app:layout_constraintStart_toStartOf="@+id/view2"
                         app:layout_constraintTop_toBottomOf="@+id/textView">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -218,13 +207,13 @@
                             android:enabled="true"
                             android:focusable="false"
                             android:fontFamily="@font/sego_semibold"
-                            android:gravity="top|center"
                             android:hint="@string/manual_date"
                             android:inputType="textCapWords"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_16ssp"
+                            android:textSize="@dimen/_14ssp"
                             tools:text="18 Feb, 2022" />
                     </com.google.android.material.textfield.TextInputLayout>
+
 
                     <TextView
                         android:id="@+id/textView2"
@@ -234,7 +223,7 @@
                         android:fontFamily="@font/sego_semibold"
                         android:text="@string/sub_duration"
                         android:textColor="@color/grey"
-                        android:textSize="@dimen/_16ssp"
+                        android:textSize="@dimen/_12ssp"
                         app:layout_constraintStart_toStartOf="@+id/textInputLayout"
                         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -245,7 +234,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_35sdp"
-                android:layout_marginTop="@dimen/_26sdp"
                 android:layout_marginEnd="@dimen/_35sdp"
                 android:padding="@dimen/_12sdp"
                 android:text="@string/save"
@@ -253,37 +241,71 @@
                 android:textSize="@dimen/_14ssp"
                 app:backgroundTint="@color/gold"
                 app:cornerRadius="@dimen/button_radius"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/member_details"
                 app:layout_constraintStart_toStartOf="@+id/member_details"
-                app:layout_constraintTop_toBottomOf="@+id/member_details" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
-            <ImageView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/remove_member"
-                android:layout_width="wrap_content"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
                 android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_baseline_delete_24"
-                android:visibility="invisible"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:text="@string/delete"
+                android:textColor="@color/gold"
+                android:textSize="@dimen/_13ssp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/save_details"
+                app:layout_constraintStart_toStartOf="@+id/save_details"
+                app:layout_constraintTop_toBottomOf="@+id/save_details"
+                app:strokeColor="@color/gold" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:theme="@style/et_style"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="@dimen/button_radius"
+                app:boxCornerRadiusBottomStart="@dimen/button_radius"
+                app:boxCornerRadiusTopEnd="@dimen/button_radius"
+                app:boxCornerRadiusTopStart="@dimen/button_radius"
+                app:boxStrokeColor="@color/white"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/gold"
+                app:layout_constraintEnd_toEndOf="@+id/member_details"
+                app:layout_constraintStart_toStartOf="@+id/member_details"
+                app:layout_constraintTop_toBottomOf="@+id/member_details">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sub_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#423D3B3B"
+                    android:fontFamily="@font/sego_semibold"
+                    android:hint="@string/pricing"
+                    android:inputType="number"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp"
+                    tools:text="18 Feb, 2022" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/navigateUpBtn"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:padding="0dp"
-                app:backgroundTint="#16FFD700"
+                app:backgroundTint="#20FFD700"
                 app:cornerRadius="@dimen/_32sdp"
                 app:icon="@drawable/ic_baseline_arrow_upward_24"
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
                 app:iconTint="@color/gold"
-                app:layout_constraintBottom_toBottomOf="@+id/save_details"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/save_details" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-</layout>
+        </androidx.constraintlayout.widget.ConstraintLayout></ScrollView></layout>

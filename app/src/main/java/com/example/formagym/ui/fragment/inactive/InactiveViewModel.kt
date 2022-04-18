@@ -1,4 +1,4 @@
-package com.example.formagym.ui.fragment.inactive.viewmodel
+package com.example.formagym.ui.fragment.inactive
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,10 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.formagym.pojo.datasource.FormaDao
 import com.example.formagym.pojo.model.User
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class InactiveViewModel constructor(private val formaDao: FormaDao): ViewModel() {
+@HiltViewModel
+class InactiveViewModel @Inject constructor(private val formaDao: FormaDao): ViewModel() {
     private val _inActiveMembers = MutableLiveData<List<User>>(mutableListOf())
     val inactiveMembers: LiveData<List<User>> get() = _inActiveMembers
 

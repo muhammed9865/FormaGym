@@ -7,6 +7,7 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,7 +34,7 @@ fun Fragment.checkForPermission(string: String): Boolean {
     return false
 }
 
-fun isDateOutdated(time: Long) = time < System.currentTimeMillis()
+
 
 
 

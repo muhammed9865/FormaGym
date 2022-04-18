@@ -22,19 +22,20 @@ import com.example.formagym.pojo.datasource.FormaDatabase
 import com.example.formagym.pojo.model.User
 import com.example.formagym.utils.checkForPermission
 import com.example.formagym.utils.showError
-import com.example.formagym.ui.viewmodel.MainViewModel
+import com.example.formagym.ui.mainviewmodel.MainViewModel
 import com.example.formagym.utils.getDateAsString
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 
+@AndroidEntryPoint
 class DetailsFragment : Fragment() {
     private val binding: FragmentDetailsBinding by lazy {
         FragmentDetailsBinding.inflate(LayoutInflater.from(requireContext()))
     }
     private val mainViewModel: MainViewModel by activityViewModels()
-    private val detailsViewModel: DetailsViewModel by viewModels {
-        DetailsViewModelFactory(FormaDatabase.getInstance(requireContext()))
-    }
+    private val viewModel: DetailsViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,25 +44,38 @@ class DetailsFragment : Fragment() {
             findNavController().navigateUp()
         }
         onNameChanged()
+        setPaymentPrice()
 
-
-        // Observing on views
-        detailsViewModel.apply {
+        // Observing on Data changes
+        viewModel.apply {
             with(binding) {
+                // Observing on Photo changes
                 photo.observe(viewLifecycleOwner) {
-                    it?.let { memberPhotoDetails.load(it) } ?: memberPhotoDetails.load(R.drawable.ic_baseline_person_24)
+                    it?.let { memberPhotoDetails.load(it) }
+                        ?: memberPhotoDetails.load(R.drawable.ic_baseline_person_24)
                 }
+                // Observing on Date changes
                 date.observe(viewLifecycleOwner) {
                     Log.d(TAG, "selectDate: ${it}")
                     subDurationManual.setText(getDateAsString(it))
-
                 }
-                binding.memberName.setText(name.value)
+                // binding.memberName.setText(name.value)
+
+                // Observing on Saving Member Response
+                response.observe(viewLifecycleOwner) { response ->
+                    when (response) {
+                        is SaveResponse.SavedSuccessfully -> findNavController().navigateUp()
+                        is SaveResponse.EmptyBoxError -> showError(
+                            binding.root,
+                            getString(R.string.error_message)
+                        )
+                    }
+                }
             }
         }
 
         editMemberIfNotNull()
-        detailsViewModel.selectedUser.observe(viewLifecycleOwner) { user ->
+        viewModel.selectedUser.observe(viewLifecycleOwner) { user ->
             user?.let {
                 showEditControls(it)
                 setMemberDetails(it)
@@ -72,15 +86,13 @@ class DetailsFragment : Fragment() {
         binding.apply {
             takePhotoBtn.setOnClickListener { takePhoto() }
             clearPhotoBtn.setOnClickListener {
-                detailsViewModel.deletePhoto()
+                viewModel.deletePhoto()
             }
             subDurationManual.setOnClickListener {
                 selectDateManually()
             }
             saveDetails.setOnClickListener {
-                detailsViewModel.saveMember().let {
-                    findNavController().navigateUp()
-                } ?: showError(binding.root, getString(R.string.error_message))
+                viewModel.saveMember()
             }
         }
 
@@ -93,7 +105,7 @@ class DetailsFragment : Fragment() {
     private val photoIntent = registerForActivityResult(
         ActivityResultContracts.TakePicturePreview()
     ) { bitmap ->
-        detailsViewModel.setPhoto(bitmap)
+        viewModel.setPhoto(bitmap)
     }
 
     private val requestCamera =
@@ -117,7 +129,7 @@ class DetailsFragment : Fragment() {
 
     private fun onNameChanged() {
         binding.memberName.doOnTextChanged { text, start, before, count ->
-            detailsViewModel.setName(text.toString())
+            viewModel.setName(text.toString())
         }
     }
 
@@ -132,12 +144,13 @@ class DetailsFragment : Fragment() {
                 set(Calendar.MONTH, datePicker.month)
                 set(Calendar.DAY_OF_MONTH, datePicker.dayOfMonth)
                 Log.d(TAG, "selectDate: $timeInMillis")
-               // binding.subDurationManual.text?.clear()
-                detailsViewModel.setSubDate(timeInMillis)
+                // binding.subDurationManual.text?.clear()
+                viewModel.setSubDate(timeInMillis)
                 binding.subDurationRg.clearCheck()
             }
 
         }, year, month, day)
+
         // Setting the minium date to be chosen to today's date.
         datePicker.datePicker.minDate = cal.timeInMillis
         datePicker.show()
@@ -149,17 +162,27 @@ class DetailsFragment : Fragment() {
             val month = Constants.MONTH_IN_MILLI
             binding.subDurationManual.text?.clear()
             when (radioGroup.checkedRadioButtonId) {
-                R.id.sub_1_month -> detailsViewModel.setSubDate(current + (month.floorDiv(2)))
-                R.id.sub_2_month -> detailsViewModel.setSubDate(current + (month), 1)
-                R.id.sub_3_month -> detailsViewModel.setSubDate(current + (month * 2), 2)
+                R.id.sub_1_month -> viewModel.setSubDate(current + (month.floorDiv(2)))
+                R.id.sub_2_month -> viewModel.setSubDate(current + (month))
+                R.id.sub_3_month -> viewModel.setSubDate(current + (month * 2))
             }
+        }
+    }
+
+    private fun setPaymentPrice() {
+        binding.subPrice.doOnTextChanged { text, _, _, _ ->
+            if (!text.isNullOrEmpty()) {
+                Log.d(TAG, "setPaymentPrice: $text")
+                val price = text.toString().toDouble()
+                viewModel.setPaymentPrice(price)
+            } else viewModel.setPaymentPrice(0.0)
         }
     }
 
 
     private fun editMemberIfNotNull() {
         mainViewModel.selectedUserId?.let { userId ->
-                detailsViewModel.searchIfUserExists(userId)
+            viewModel.searchIfUserExists(userId)
         }
     }
 
@@ -172,7 +195,7 @@ class DetailsFragment : Fragment() {
                     .setTitle("Deleting Subscriber")
                     .setMessage(getString(R.string.delete_member) + user.name)
                     .setPositiveButton(getString(R.string.delete)) { d, _ ->
-                        detailsViewModel.deleteMember()
+                        viewModel.deleteMember()
                         d.dismiss()
                         d.cancel()
                         findNavController().navigateUp()
@@ -185,11 +208,13 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setMemberDetails(user: User) {
-        detailsViewModel.apply {
+        viewModel.apply {
             userId = user.id
             user.memberPhoto?.let { setPhoto(it) }
             setName(user.name)
             binding.memberName.setText(user.name)
+            setPaymentPrice(user.paymentPrice)
+            binding.subPrice.setText(user.paymentPrice.toString())
             setSubDate(user.subscribeEndDate)
         }
     }

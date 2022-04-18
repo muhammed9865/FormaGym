@@ -10,21 +10,24 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.formagym.R
 import com.example.formagym.databinding.FragmentSubsBinding
 import com.example.formagym.pojo.datasource.FormaDatabase
-import com.example.formagym.ui.fragment.active.adapter.SelectedMember
-import com.example.formagym.ui.fragment.active.adapter.SubscribersAdapter
-import com.example.formagym.ui.viewmodel.MainViewModel
+import com.example.formagym.ui.adapter.subsadapter.SelectedMember
+import com.example.formagym.ui.adapter.subsadapter.SubscribersAdapter
+import com.example.formagym.ui.mainviewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class ActiveFragment : Fragment(), SearchView.OnQueryTextListener {
+@AndroidEntryPoint
+class ActiveFragment : Fragment(), SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: FragmentSubsBinding
-    private val viewModel: ActiveViewModel by viewModels {
-        ActiveViewModelFactory(FormaDatabase.getInstance(requireContext()))
-    }
+    private val viewModel: ActiveViewModel by viewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
-    private val mAdapter: SubscribersAdapter by lazy { SubscribersAdapter() }
+
+    @Inject
+    private lateinit var mAdapter: SubscribersAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,6 +37,7 @@ class ActiveFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.apply {
             progressBar.visibility = View.VISIBLE
             searchActive.setOnQueryTextListener(this@ActiveFragment)
+            activeRefresher.setOnRefreshListener(this@ActiveFragment)
         }
 
         viewModel.getActiveMembers()
@@ -49,6 +53,7 @@ class ActiveFragment : Fragment(), SearchView.OnQueryTextListener {
         })
 
         viewModel.activeMembers.observe(viewLifecycleOwner) {
+            binding.activeRefresher.isRefreshing = false
             mAdapter.submitList(it)
             binding.progressBar.visibility = View.GONE
             if (it.isEmpty()) {
@@ -58,24 +63,6 @@ class ActiveFragment : Fragment(), SearchView.OnQueryTextListener {
             }
 
         }
-
-
-        binding.subsRv.addOnChildAttachStateChangeListener(object :
-            RecyclerView.OnChildAttachStateChangeListener {
-            override fun onChildViewAttachedToWindow(view: View) {
-                binding.progressBar.visibility = View.GONE
-            }
-
-            override fun onChildViewDetachedFromWindow(view: View) {
-                if (mAdapter.currentList.isEmpty()) {
-                    binding.emptyMembers.visibility = View.VISIBLE
-                    binding.progressBar.visibility = View.GONE
-                } else {
-                    binding.emptyMembers.visibility = View.GONE
-                    binding.progressBar.visibility = View.GONE
-                }
-            }
-        })
 
 
         setupSubsRv()
@@ -107,6 +94,12 @@ class ActiveFragment : Fragment(), SearchView.OnQueryTextListener {
             viewModel.searchActiveMembers(query)
         } ?: viewModel.getActiveMembers()
         return true
+    }
+
+    override fun onRefresh() {
+        viewModel.getActiveMembers()
+        mainViewModel.getActiveMembersLength()
+
     }
 
 }

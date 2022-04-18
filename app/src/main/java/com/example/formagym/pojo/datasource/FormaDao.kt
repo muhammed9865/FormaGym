@@ -32,10 +32,10 @@ abstract class FormaDao {
     abstract suspend fun getAllPayments(): List<Payment>
 
     @Query("SELECT SUM(moneyPaid) FROM Payment")
-    abstract suspend fun getTotalIncome(): Int
+    abstract suspend fun getTotalIncome(): Double?
 
     @Query("SELECT AVG(moneyPaid) FROM Payment")
-    abstract suspend fun getAvgIncome(): Double
+    abstract suspend fun getAvgIncome(): Double?
 
     @Query("SELECT * FROM members_table WHERE subscribeEndDate > :currentDate")
     abstract suspend fun getActiveMembers(currentDate: Long): List<User>

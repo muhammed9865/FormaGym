@@ -11,4 +11,13 @@
         <item name="android:layout_margin">5dp</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <style name="details_card_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/boxes_margin</item>
+        <item name="android:layout_marginEnd">@dimen/boxes_margin</item>
+        <item name="cardBackgroundColor">@color/gold</item>
+        <item name="cardCornerRadius">@dimen/boxes_radius</item>
+    </style>
 </resources>

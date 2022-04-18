@@ -1,4 +1,4 @@
-package com.example.formagym.ui.fragment.active.adapter
+package com.example.formagym.ui.adapter.subsadapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.formagym.pojo.model.User
