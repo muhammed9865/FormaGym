@@ -5,10 +5,8 @@ import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.core.widget.doOnTextChanged
@@ -18,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.formagym.*
 import com.example.formagym.databinding.FragmentDetailsBinding
-import com.example.formagym.pojo.datasource.FormaDatabase
 import com.example.formagym.pojo.model.User
 import com.example.formagym.utils.checkForPermission
 import com.example.formagym.utils.showError
@@ -29,7 +26,7 @@ import java.util.*
 
 
 @AndroidEntryPoint
-class DetailsFragment : Fragment() {
+class DetailsFragment : Fragment(), View.OnCreateContextMenuListener {
     private val binding: FragmentDetailsBinding by lazy {
         FragmentDetailsBinding.inflate(LayoutInflater.from(requireContext()))
     }
@@ -40,9 +37,11 @@ class DetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding.navigateUpBtn.setOnClickListener {
+
+        binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+        setToolbarMenu()
         onNameChanged()
         setPaymentPrice()
 
@@ -77,7 +76,7 @@ class DetailsFragment : Fragment() {
         editMemberIfNotNull()
         viewModel.selectedUser.observe(viewLifecycleOwner) { user ->
             user?.let {
-                showEditControls(it)
+                removeUser(it)
                 setMemberDetails(it)
             }
         }
@@ -90,9 +89,6 @@ class DetailsFragment : Fragment() {
             }
             subDurationManual.setOnClickListener {
                 selectDateManually()
-            }
-            saveDetails.setOnClickListener {
-                viewModel.saveMember()
             }
         }
 
@@ -186,10 +182,7 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun showEditControls(user: User) {
-        binding.removeMember.apply {
-            visibility = View.VISIBLE
-            setOnClickListener {
+    private fun removeUser(user: User) {
                 AlertDialog.Builder(requireContext())
                     .setIcon(R.drawable.exclamation)
                     .setTitle("Deleting Subscriber")
@@ -203,8 +196,7 @@ class DetailsFragment : Fragment() {
                     .setNegativeButton(getString(R.string.cancel)) { d, _ ->
                         d.dismiss()
                     }.show()
-            }
-        }
+
     }
 
     private fun setMemberDetails(user: User) {
@@ -219,6 +211,52 @@ class DetailsFragment : Fragment() {
         }
     }
 
+
+
+    private fun setToolbarMenu() {
+        binding.toolbar.apply {
+            // Inflating accurate menu
+            mainViewModel.selectedUserId?.let {
+                inflateMenu(R.menu.details_topbar_with_delete)
+            } ?: inflateMenu(R.menu.details_topbar)
+
+            // Setting on menuItem click listener
+            setOnMenuItemClickListener { item ->
+                when(item.itemId) {
+                    R.id.save_details -> {
+                        viewModel.saveMember()
+                        true
+                    }
+                    R.id.delete_details -> {
+                        viewModel.selectedUser.value?.let {
+                            removeUser(it)
+                        }
+                        true
+                    }
+                    else -> false
+                }
+
+            }
+        }
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.save_details -> {
+                viewModel.saveMember()
+                true
+            }
+
+            R.id.delete_details -> {
+                viewModel.selectedUser.value?.let {
+                    removeUser(it)
+                }
+                true
+            }
+            else -> false
+        }
+    }
 
     companion object {
         private const val TAG = "DetailsFragment"

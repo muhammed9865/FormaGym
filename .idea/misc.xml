@@ -3,17 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/drawable/ic_baseline_arrow_upward_24.xml" value="0.3155" />
+        <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.3155" />
         <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/drawable/ic_baseline_monetization_on_24.xml" value="0.3155" />
         <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/drawable/ic_baseline_people_outline_24.xml" value="0.3155" />
         <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.3155" />
         <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/drawable/ic_inactive.xml" value="0.3155" />
         <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/drawable/subscribe_months.xml" value="0.3155" />
         <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/layout/activity_main.xml" value="0.425" />
-        <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/layout/fragment_details.xml" value="0.33" />
+        <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/layout/fragment_details.xml" value="0.5" />
         <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/layout/fragment_inactive.xml" value="0.425" />
         <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/layout/fragment_income.xml" value="0.425" />
         <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/layout/fragment_subs.xml" value="0.425" />
         <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/layout/list_item_payment.xml" value="0.425" />
+        <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/menu/details_topbar.xml" value="0.425" />
         <entry key="..\:/AndroidStudioProjects/FormaGym/app/src/main/res/menu/main_menu.xml" value="0.425" />
       </map>
     </option>

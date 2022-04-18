@@ -27,7 +27,7 @@ class ActiveFragment : Fragment(), SearchView.OnQueryTextListener, SwipeRefreshL
     private val mainViewModel: MainViewModel by activityViewModels()
 
     @Inject
-    private lateinit var mAdapter: SubscribersAdapter
+    lateinit var mAdapter: SubscribersAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

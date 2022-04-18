@@ -27,7 +27,7 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener, SwipeRefres
     private val mainViewModel: MainViewModel by activityViewModels()
     private val viewModel: InactiveViewModel by viewModels()
     @Inject
-    private lateinit var adapter: SubscribersAdapter
+    lateinit var adapter: SubscribersAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

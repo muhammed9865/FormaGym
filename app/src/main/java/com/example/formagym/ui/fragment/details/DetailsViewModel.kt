@@ -48,18 +48,6 @@ class DetailsViewModel @Inject constructor(private val dao: FormaDao) : ViewMode
         _paymentPrice = price
     }
 
-    /* Was used before generalizing the counting technique
-     fun setSubDate(date: Long, months: Int) {
-         memberSubDate.value = date
-         userId?.let {
-             payment = Payment.fromDays(memberName.value!!, it, date)
-         } ?: Payment.fromDays(memberName.value!!, -1, date).also {
-             // To handle payment being null if user isn't editing.
-             // Handled in FormaDao.
-             payment = it
-         }
-
-     }*/
 
     fun deletePhoto() {
         memberPhoto.postValue(null)
@@ -79,11 +67,11 @@ class DetailsViewModel @Inject constructor(private val dao: FormaDao) : ViewMode
                     subscribeEndDate = memberSubDate.value!!
                     paymentPrice = _paymentPrice
                 }
-                payment = Payment.fromDays(
-                    memberName.value!!,
-                    it.id,
-                    memberSubDate.value!!,
-                    _paymentPrice
+                payment = Payment(
+                    userName = memberName.value!!,
+                    userId = it.id,
+                    date = memberSubDate.value!!,
+                    moneyPaid = _paymentPrice.toInt()
                 )
                 // If payment is set, then save the user with payment.
                 Log.d(TAG, "saveMember: $payment")
@@ -100,11 +88,12 @@ class DetailsViewModel @Inject constructor(private val dao: FormaDao) : ViewMode
                     memberPhoto.value,
                     _paymentPrice
                 )
-                payment = Payment.fromDays(
-                    memberName.value!!,
-                    -1,
-                    memberSubDate.value!!,
-                    _paymentPrice
+                // userId = -1 to inform the DataSource that the id has to be fetched.
+                payment = Payment(
+                    userName = memberName.value!!,
+                    userId = -1,
+                    date = memberSubDate.value!!,
+                    moneyPaid = _paymentPrice.toInt()
                 )
 
                 dao.saveUserWithPayment(newUser, payment!!)
