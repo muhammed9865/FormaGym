@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.formagym.pojo.datasource.FormaDao
+import com.example.formagym.pojo.model.Payment
 import com.example.formagym.pojo.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -32,6 +33,22 @@ class InactiveViewModel @Inject constructor(private val formaDao: FormaDao): Vie
                 _inActiveMembers.value = it
             }
         }
+    }
+
+    fun searchMemberByID(userId: Int): LiveData<User> {
+        val user = MutableLiveData<User>()
+        viewModelScope.launch {
+            user.value = formaDao.getUserByID(userId)
+        }
+        return user
+    }
+
+    fun loadUserPayments(userId: Int): LiveData<List<Payment>> {
+        val payments = MutableLiveData<List<Payment>>(mutableListOf())
+        viewModelScope.launch {
+            payments.value = formaDao.getUserPayments(userId).payments
+        }
+        return payments
     }
 
 

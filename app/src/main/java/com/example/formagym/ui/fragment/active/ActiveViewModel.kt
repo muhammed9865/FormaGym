@@ -18,8 +18,6 @@ class ActiveViewModel @Inject constructor(private val formaDao: FormaDao): ViewM
     private val _activeMembers = MutableLiveData<List<User>>(mutableListOf())
     val activeMembers: LiveData<List<User>> get() = _activeMembers
 
-    private val _userSearchResult = MutableLiveData<User>()
-    val userSearchResult: LiveData<User> = _userSearchResult
 
     fun getActiveMembers() {
         viewModelScope.launch {
