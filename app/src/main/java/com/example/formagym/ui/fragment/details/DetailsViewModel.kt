@@ -70,7 +70,6 @@ class DetailsViewModel @Inject constructor(private val dao: FormaDao) : ViewMode
                 payment = Payment(
                     userName = memberName.value!!,
                     userId = it.id,
-                    date = memberSubDate.value!!,
                     moneyPaid = _paymentPrice.toInt()
                 )
                 // If payment is set, then save the user with payment.
@@ -92,7 +91,6 @@ class DetailsViewModel @Inject constructor(private val dao: FormaDao) : ViewMode
                 payment = Payment(
                     userName = memberName.value!!,
                     userId = -1,
-                    date = memberSubDate.value!!,
                     moneyPaid = _paymentPrice.toInt()
                 )
 

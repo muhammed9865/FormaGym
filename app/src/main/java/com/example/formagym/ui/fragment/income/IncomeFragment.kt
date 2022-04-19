@@ -48,7 +48,10 @@ class IncomeFragment : Fragment() {
             }
 
             totalIncome.observe(viewLifecycleOwner) {
-                binding.totalIncomeTv.text = floor(it).toInt().toString()
+                it?.let {
+                    binding.totalIncomeTv.text = floor(it).toInt().toString()
+                }
+
             }
 
         }

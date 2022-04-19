@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/userCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/boxes_margin"
@@ -104,9 +105,9 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/list_item_member_date_bg"
-                android:padding="10dp"
-                android:tint="@color/grey"
-                android:src="@drawable/exclamation"
+               android:padding="@dimen/_5sdp"
+                app:tint="@color/white"
+                android:src="@drawable/ic_baseline_edit_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/member_sub_end" />

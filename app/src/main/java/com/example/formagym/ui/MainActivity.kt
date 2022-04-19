@@ -1,18 +1,17 @@
 package com.example.formagym.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.example.formagym.R
 import com.example.formagym.databinding.ActivityMainBinding
-import com.example.formagym.pojo.datasource.FormaDatabase
 import com.example.formagym.ui.mainviewmodel.MainViewModel
-import com.example.formagym.ui.mainviewmodel.MainViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,10 +29,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        NavigationUI.setupWithNavController(binding.bottomNav, navController)
+
+
+        createBottomNavigationMenu()
 
         viewModel.getActiveMembersLength()
         viewModel.getInactiveMembersLength()
+
+        binding.bottomNav.setOnShowListener {
+            Log.d(TAG, "onCreate: ${it.count}")
+        }
 
         setInactiveBadge()
         setActiveBadge()
@@ -46,35 +51,27 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setInactiveBadge() {
-        val badge = binding.bottomNav.getOrCreateBadge(R.id.inactives_section)
+
         viewModel.inactiveSubsCount.observe(this) { count ->
             if (count > 0) {
-                badge.apply {
-                    isVisible = true
-                    number = count
-                }
+                binding.bottomNav.setCount(R.id.inactives_section, count.toString())
+
             } else {
-                badge.apply {
-                    isVisible = false
-                    clearNumber()
-                }
+                binding.bottomNav.clearCount(R.id.inactives_section)
+
             }
         }
     }
 
     private fun setActiveBadge() {
-        val badge = binding.bottomNav.getOrCreateBadge(R.id.active)
+
         viewModel.activeSubsCount.observe(this) { count ->
             if (count > 0) {
-                badge.apply {
-                    isVisible = true
-                    number = count
-                }
+                binding.bottomNav.setCount(R.id.active, count.toString())
+
             } else {
-                badge.apply {
-                    isVisible = false
-                    clearNumber()
-                }
+                binding.bottomNav.clearCount(R.id.active)
+
             }
         }
     }
@@ -93,25 +90,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun createBottomNavigationMenu() {
+        binding.bottomNav.apply {
+            add(MeowBottomNavigation.Model(R.id.active, R.drawable.ic_baseline_group_24))
+            add(MeowBottomNavigation.Model(R.id.inactives_section, R.drawable.ic_inactive))
+            add(MeowBottomNavigation.Model(R.id.payments_section, R.drawable.ic_baseline_monetization_on_24))
+            show(R.id.active)
+        }
+    }
+
     private fun onBottomNavItemSelected() {
-        binding.bottomNav.setOnItemSelectedListener {
-            val currentDest = navController.currentDestination?.id
-            when (it.itemId) {
+        binding.bottomNav.setOnClickMenuListener {
+            when (it.id) {
                 R.id.inactives_section -> {
                     navController.navigate(R.id.inactiveFragment)
-                    true
+
                 }
                 R.id.active -> {
                     navController.navigate(R.id.activeFragment)
-                    true
                 }
-
                 R.id.payments_section -> {
                     navController.navigate(R.id.incomeFragment)
-                    true
                 }
-
-                else -> false
             }
         }
     }

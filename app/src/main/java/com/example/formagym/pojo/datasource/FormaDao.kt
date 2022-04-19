@@ -3,6 +3,7 @@ package com.example.formagym.pojo.datasource
 import androidx.room.*
 import com.example.formagym.pojo.model.Payment
 import com.example.formagym.pojo.model.User
+import com.example.formagym.pojo.model.relations.UserWithPayments
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -17,28 +18,15 @@ abstract class FormaDao {
         savePayment(payment)
     }
 
+    // User Related Methods
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun saveUser(user: User)
 
     @Query("SELECT * FROM members_table WHERE id = :userId")
     abstract suspend fun getUserByID(userId: Int): User?
+
     @Delete
     abstract suspend fun removeUser(user: User)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun savePayment(payment: Payment)
-
-    @Query("SELECT * FROM Payment")
-    abstract suspend fun getAllPayments(): List<Payment>
-
-    @Query("SELECT SUM(moneyPaid) FROM Payment")
-    abstract suspend fun getTotalIncome(): Double?
-
-    @Query("SELECT AVG(moneyPaid) FROM Payment")
-    abstract suspend fun getAvgIncome(): Double?
-
-    @Query("SELECT AVG(moneyPaid) FROM Payment WHERE date BETWEEN :from AND :to")
-    abstract suspend fun getAvgIncomeBetweenTwoDates(from: Long, to: Long): Int?
 
     @Query("SELECT * FROM members_table WHERE subscribeEndDate > :currentDate")
     abstract suspend fun getActiveMembers(currentDate: Long): List<User>
@@ -60,6 +48,31 @@ abstract class FormaDao {
     abstract fun searchInActiveMembers(currentDate: Long, searchQuery: String): Flow<List<User>>
 
 
+    // Payment Related Methods
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun savePayment(payment: Payment)
+
+    @Query("SELECT * FROM Payment")
+    abstract suspend fun getAllPayments(): List<Payment>
+
+    @Query("SELECT * FROM members_table WHERE id = :userId")
+    abstract suspend fun getUserPayments(userId: Int): UserWithPayments
+
+    @Query("SELECT SUM(moneyPaid) FROM Payment")
+    abstract suspend fun getTotalIncome(): Double?
+
+    @Query("SELECT AVG(moneyPaid) FROM Payment")
+    abstract suspend fun getAvgIncome(): Double?
+
+    @Query("SELECT AVG(moneyPaid) FROM Payment WHERE date BETWEEN :from AND :to")
+    abstract suspend fun getAvgIncomeBetweenTwoDates(from: Long, to: Long): Int?
+
+    @Query("DELETE FROM Payment")
+    abstract suspend fun deleteAllPayments()
+
+
+    // Special Methods
+    // Used with saving a new member to get his ID, and then insert it into the Payment.
     @Query("SELECT MAX(id) FROM members_table")
     protected abstract suspend fun getLastInsertedMemberId(): Int
 

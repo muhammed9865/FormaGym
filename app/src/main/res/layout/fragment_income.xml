@@ -23,7 +23,7 @@
             android:layout_height="0dp"
             android:background="@color/white"
 
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/guideline4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/income_toolbar" />
@@ -76,6 +76,13 @@
             android:typeface="monospace"
             app:layout_constraintBaseline_toBaselineOf="@+id/total_income_tv"
             app:layout_constraintStart_toEndOf="@+id/total_income_tv" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="661dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

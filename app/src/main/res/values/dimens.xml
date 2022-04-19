@@ -6,4 +6,5 @@
     <dimen name="boxes_margin">@dimen/_25sdp</dimen>
     <dimen name="home_button_width">@dimen/_110sdp</dimen>
     <dimen name="home_button_height">@dimen/_60sdp</dimen>
+    <dimen name="guideline_begin">677dp</dimen>
 </resources>
