@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:text="@string/from"
+            app:layout_constraintEnd_toEndOf="@+id/from_btn"
+            app:layout_constraintStart_toStartOf="@+id/from_btn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/to"
+            app:layout_constraintEnd_toEndOf="@+id/to_btn"
+            app:layout_constraintStart_toStartOf="@+id/to_btn"
+            app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/to_btn"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:padding="0dp"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_12ssp"
+            app:cornerRadius="@dimen/_10sdp"
+            app:icon="@drawable/ic_baseline_calendar_today_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="@color/grey"
+            app:layout_constraintBottom_toBottomOf="@+id/from_btn"
+            app:layout_constraintStart_toEndOf="@+id/from_btn"
+            app:layout_constraintTop_toBottomOf="@+id/textView9"
+            app:strokeColor="@color/grey" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/from_btn"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_12ssp"
+            app:cornerRadius="@dimen/_10sdp"
+            app:icon="@drawable/ic_baseline_calendar_today_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="@color/grey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:strokeColor="@color/grey" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="79dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/from"
+            app:layout_constraintStart_toEndOf="@+id/to_btn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/to"
+            app:layout_constraintEnd_toEndOf="@+id/textView10"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textView10"
+            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/avg_income"
+            app:layout_constraintEnd_toEndOf="@+id/textView11"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textView11"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <TextView
+            android:id="@+id/from_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/grey"
+            app:layout_constraintBottom_toBottomOf="@+id/textView10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView10"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="12 June 2002" />
+
+        <TextView
+            android:id="@+id/to_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"
+            app:layout_constraintBottom_toBottomOf="@+id/textView11"
+            app:layout_constraintEnd_toEndOf="@+id/from_tv"
+            app:layout_constraintStart_toStartOf="@+id/from_tv"
+            app:layout_constraintTop_toBottomOf="@+id/textView10"
+            app:layout_constraintVertical_bias="1.0"
+            tools:text="15 July 2010" />
+
+        <TextView
+            android:id="@+id/calculated_income_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/grey"
+            app:layout_constraintBottom_toBottomOf="@+id/textView12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView12"
+            app:layout_constraintTop_toTopOf="@+id/textView12"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="2600" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/calc_avg_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/calculate"
+            android:textColor="@color/grey"
+            app:backgroundTint="@color/gold"
+            app:cornerRadius="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/to_btn"
+            app:layout_constraintStart_toStartOf="@+id/from_btn"
+            app:layout_constraintTop_toBottomOf="@+id/from_btn" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

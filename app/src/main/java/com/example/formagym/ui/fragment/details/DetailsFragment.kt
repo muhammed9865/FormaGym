@@ -20,6 +20,7 @@ import com.example.formagym.pojo.model.User
 import com.example.formagym.utils.checkForPermission
 import com.example.formagym.utils.showError
 import com.example.formagym.ui.mainviewmodel.MainViewModel
+import com.example.formagym.utils.DatePickerHelper
 import com.example.formagym.utils.getDateAsString
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -76,7 +77,6 @@ class DetailsFragment : Fragment(), View.OnCreateContextMenuListener {
         editMemberIfNotNull()
         viewModel.selectedUser.observe(viewLifecycleOwner) { user ->
             user?.let {
-                removeUser(it)
                 setMemberDetails(it)
             }
         }
@@ -130,26 +130,10 @@ class DetailsFragment : Fragment(), View.OnCreateContextMenuListener {
     }
 
     private fun selectDateManually() {
-        val cal = Calendar.getInstance()
-        val year = cal.get(Calendar.YEAR)
-        val month = cal.get(Calendar.MONTH)
-        val day = cal.get(Calendar.DAY_OF_MONTH)
-        val datePicker = DatePickerDialog(requireContext(), { datePicker, _, _, _ ->
-            cal.apply {
-                set(Calendar.YEAR, datePicker.year)
-                set(Calendar.MONTH, datePicker.month)
-                set(Calendar.DAY_OF_MONTH, datePicker.dayOfMonth)
-                Log.d(TAG, "selectDate: $timeInMillis")
-                // binding.subDurationManual.text?.clear()
-                viewModel.setSubDate(timeInMillis)
-                binding.subDurationRg.clearCheck()
-            }
-
-        }, year, month, day)
-
-        // Setting the minium date to be chosen to today's date.
-        datePicker.datePicker.minDate = cal.timeInMillis
-        datePicker.show()
+        DatePickerHelper.selectDate(requireContext(), true) { time ->
+            viewModel.setSubDate(time)
+            binding.subDurationRg.clearCheck()
+        }
     }
 
     private fun selectDateFromRg() {
@@ -222,6 +206,7 @@ class DetailsFragment : Fragment(), View.OnCreateContextMenuListener {
 
             // Setting on menuItem click listener
             setOnMenuItemClickListener { item ->
+                Log.d(TAG, "setToolbarMenu: ${item.itemId}")
                 when(item.itemId) {
                     R.id.save_details -> {
                         viewModel.saveMember()

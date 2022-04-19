@@ -1,5 +1,6 @@
 package com.example.formagym.ui.fragment.income
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +22,8 @@ class IncomeViewModel @Inject constructor(private val dao: FormaDao): ViewModel(
     private val _avgIncome = MutableLiveData<Double>(0.0)
     val avgIncome: LiveData<Double> = _avgIncome
 
+
+    val calculatedAvgIncome = MutableLiveData(0)
     fun fetchPayments() {
         viewModelScope.launch {
             _paymentsList.value = dao.getAllPayments()
@@ -38,4 +41,16 @@ class IncomeViewModel @Inject constructor(private val dao: FormaDao): ViewModel(
             _avgIncome.value = dao.getAvgIncome()
         }
     }
+
+    fun getAverageIncomeBetweenTwoDates(from: Long, to: Long) {
+        viewModelScope.launch {
+            Log.d(TAG, "getAverageIncomeBetweenTwoDates: from: $from, to: $to")
+            calculatedAvgIncome.value = dao.getAvgIncomeBetweenTwoDates(from, to)
+        }
+    }
+
+    companion object {
+        private const val TAG = "IncomeViewModel"
+    }
+
 }

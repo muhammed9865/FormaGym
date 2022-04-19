@@ -31,6 +31,10 @@
     <string name="none">-1</string>
     <string name="pricing">Enter Total Cost</string>
     <string name="avg_income">Average Income</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="calculate">Calculate</string>
+    <string name="calculate_average">Calculate Average</string>
 
 
 </resources>

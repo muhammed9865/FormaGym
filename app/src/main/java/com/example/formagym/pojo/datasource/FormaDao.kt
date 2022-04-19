@@ -37,6 +37,9 @@ abstract class FormaDao {
     @Query("SELECT AVG(moneyPaid) FROM Payment")
     abstract suspend fun getAvgIncome(): Double?
 
+    @Query("SELECT AVG(moneyPaid) FROM Payment WHERE date BETWEEN :from AND :to")
+    abstract suspend fun getAvgIncomeBetweenTwoDates(from: Long, to: Long): Int?
+
     @Query("SELECT * FROM members_table WHERE subscribeEndDate > :currentDate")
     abstract suspend fun getActiveMembers(currentDate: Long): List<User>
 
