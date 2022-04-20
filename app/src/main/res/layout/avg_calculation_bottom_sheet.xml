@@ -5,7 +5,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/textView8"
@@ -132,6 +132,27 @@
             app:layout_constraintVertical_bias="0.0"
             tools:text="2600" />
 
+        <RadioGroup
+            android:id="@+id/calculator_options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@+id/from_btn"
+            app:layout_constraintTop_toBottomOf="@+id/from_btn">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/calculator_avg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/average" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/calculator_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total" />
+        </RadioGroup>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/calc_avg_btn"
             android:layout_width="wrap_content"
@@ -140,10 +161,9 @@
             android:textColor="@color/grey"
             app:backgroundTint="@color/gold"
             app:cornerRadius="@dimen/_10sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/to_btn"
             app:layout_constraintStart_toStartOf="@+id/from_btn"
-            app:layout_constraintTop_toBottomOf="@+id/from_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/calculator_options" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

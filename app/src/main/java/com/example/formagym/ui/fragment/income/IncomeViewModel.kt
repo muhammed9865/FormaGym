@@ -19,11 +19,7 @@ class IncomeViewModel @Inject constructor(private val dao: FormaDao): ViewModel(
     private val _totalIncome = MutableLiveData<Double>(0.0)
     val totalIncome: LiveData<Double> = _totalIncome
 
-    private val _avgIncome = MutableLiveData<Double>(0.0)
-    val avgIncome: LiveData<Double> = _avgIncome
-
-
-    val calculatedAvgIncome = MutableLiveData(0)
+    val calculatedIncome = MutableLiveData(0)
     fun fetchPayments() {
         viewModelScope.launch {
             _paymentsList.value = dao.getAllPayments()
@@ -35,17 +31,19 @@ class IncomeViewModel @Inject constructor(private val dao: FormaDao): ViewModel(
             _totalIncome.value = dao.getTotalIncome()
         }
     }
-
-    fun getAverageIncome() {
-        viewModelScope.launch {
-            _avgIncome.value = dao.getAvgIncome()
-        }
-    }
+    
 
     fun getAverageIncomeBetweenTwoDates(from: Long, to: Long) {
         viewModelScope.launch {
             Log.d(TAG, "getAverageIncomeBetweenTwoDates: from: $from, to: $to")
-            calculatedAvgIncome.value = dao.getAvgIncomeBetweenTwoDates(from, to)
+            calculatedIncome.value = dao.getAvgIncomeBetweenTwoDates(from, to)
+        }
+    }
+
+    fun getTotalIncomeBetweenTwoDates(from: Long, to: Long) {
+        viewModelScope.launch {
+            Log.d(TAG, "getAverageIncomeBetweenTwoDates: from: $from, to: $to")
+            calculatedIncome.value = dao.getTotalIncomeBetweenTwoDates(from, to)
         }
     }
 

@@ -37,6 +37,8 @@
     <string name="calculate_average">Average Calculator</string>
     <string name="edit_details">Edit Details</string>
     <string name="payments">Payments</string>
+    <string name="average">Average</string>
+    <string name="total">Total</string>
 
 
 </resources>

@@ -68,6 +68,9 @@ abstract class FormaDao {
     @Query("SELECT AVG(moneyPaid) FROM Payment WHERE date BETWEEN :from AND :to")
     abstract suspend fun getAvgIncomeBetweenTwoDates(from: Long, to: Long): Int?
 
+    @Query("SELECT SUM(moneyPaid) FROM Payment WHERE date BETWEEN :from AND :to")
+    abstract suspend fun getTotalIncomeBetweenTwoDates(from: Long, to: Long): Int?
+
     @Query("DELETE FROM Payment")
     abstract suspend fun deleteAllPayments()
 

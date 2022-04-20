@@ -39,7 +39,6 @@ class IncomeFragment : Fragment() {
         // Fetching data
         viewModel.fetchPayments()
         viewModel.getTotalIncome()
-        viewModel.getAverageIncome()
 
         // Observing On Data changes
         viewModel.apply {
@@ -70,26 +69,39 @@ class IncomeFragment : Fragment() {
         var from: Long = 0
         var to: Long = 0
         binding.fromBtn.setOnClickListener {
-            DatePickerHelper.selectDate(requireContext(),false) { time ->
+            DatePickerHelper.selectDate(requireContext(), false) { time ->
                 from = time
                 binding.fromTv.text = getDateAsString(time)
             }
         }
 
         binding.toBtn.setOnClickListener {
-            DatePickerHelper.selectDate(requireContext(),false) { time ->
+            DatePickerHelper.selectDate(requireContext(), false) { time ->
                 to = time
                 binding.toTv.text = getDateAsString(time)
             }
         }
-
-        binding.calcAvgBtn.setOnClickListener {
-            viewModel.getAverageIncomeBetweenTwoDates(from, to)
-            viewModel.calculatedAvgIncome.observe(viewLifecycleOwner) {
-                Log.d(TAG, "onCalculateAverageIncomeClicked: $it")
-                binding.calculatedIncomeTv.text = it?.toString() ?: "0"
+        var option = -1
+        binding.calculatorOptions.setOnCheckedChangeListener { radioGroup, i ->
+            when (radioGroup.checkedRadioButtonId) {
+                binding.calculatorAvg.id -> option = 0
+                binding.calculatorTotal.id -> option = 1
             }
         }
+
+        binding.calcAvgBtn.setOnClickListener {
+            when(option) {
+                0 -> viewModel.getAverageIncomeBetweenTwoDates(from, to)
+                1 -> viewModel.getTotalIncomeBetweenTwoDates(from, to)
+            }
+        }
+
+        viewModel.calculatedIncome.observe(viewLifecycleOwner) {
+            Log.d(TAG, "onCalculateAverageIncomeClicked: $it")
+            binding.calculatedIncomeTv.text = it?.toString() ?: "0"
+        }
+
+
     }
 
     companion object {

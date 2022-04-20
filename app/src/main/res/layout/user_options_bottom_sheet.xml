@@ -89,8 +89,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/user_payments_rv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/_100sdp"
+                android:layout_height="match_parent"
                 android:visibility="gone"
                 android:orientation="vertical"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
