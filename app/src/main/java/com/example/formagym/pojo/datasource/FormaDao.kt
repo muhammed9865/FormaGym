@@ -55,6 +55,7 @@ abstract class FormaDao {
     @Query("SELECT * FROM Payment")
     abstract suspend fun getAllPayments(): List<Payment>
 
+    @Transaction
     @Query("SELECT * FROM members_table WHERE id = :userId")
     abstract suspend fun getUserPayments(userId: Int): UserWithPayments
 

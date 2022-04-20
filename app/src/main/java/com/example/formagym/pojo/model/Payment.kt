@@ -12,9 +12,10 @@ data class Payment(
     @PrimaryKey(autoGenerate = true)
     val paymentId: Int? = null,
     val date: Long = System.currentTimeMillis(),
-    val moneyPaid: Int,
-    var userId: Int,
-    val userName: String
+    val moneyPaid: Int = -1,
+    var userId: Int = -1,
+    val userName: String = "",
+
 ) {
     companion object {
         fun fromDays(userName: String, userId: Int, timeInMilli: Long): Payment {

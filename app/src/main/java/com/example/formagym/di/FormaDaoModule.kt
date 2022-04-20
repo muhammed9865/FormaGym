@@ -2,6 +2,7 @@ package com.example.formagym.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
 import com.example.formagym.pojo.datasource.FormaDao
 import com.example.formagym.pojo.datasource.FormaDatabase
 import dagger.Module
@@ -15,11 +16,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class FormaDaoModule {
 
+
     @Singleton
     @Provides
     fun provideDatabase(@ApplicationContext context: Context): FormaDatabase {
-        return Room.databaseBuilder(context, FormaDatabase::class.java, "forma.db")
-            .fallbackToDestructiveMigration().build()
+        return Room
+            .databaseBuilder(context, FormaDatabase::class.java, "forma.db")
+            .build()
     }
 
     @Singleton

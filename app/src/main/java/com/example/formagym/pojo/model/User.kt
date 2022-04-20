@@ -14,7 +14,9 @@ data class User(
     @Nullable
     @ColumnInfo(defaultValue = "0")
     var memberPhoto: Bitmap? = null,
-    var paymentPrice: Double
+
+    @ColumnInfo(defaultValue = "0")
+    var paymentPrice: Double = 0.0
 ){
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

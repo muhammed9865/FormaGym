@@ -2,6 +2,7 @@ package com.example.formagym.pojo.model.relations
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import androidx.room.Transaction
 import com.example.formagym.pojo.model.Payment
 import com.example.formagym.pojo.model.User
 
