@@ -96,7 +96,7 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener, SwipeRefres
                     showDetails.setOnClickListener {
                         mainViewModel.onViewDetails(userId)
                         bottomSheet.cancel()
-                        findNavController().navigate(R.id.action_activeFragment_to_detailsFragment)
+                        findNavController().navigate(R.id.action_inactiveFragment_to_detailsFragment)
                     }
 
                     showPayments.setOnClickListener {
@@ -116,8 +116,6 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener, SwipeRefres
                 }
             }
         }
-
-
 
         bottomSheet.setContentView(_binding.root)
         bottomSheet.show()

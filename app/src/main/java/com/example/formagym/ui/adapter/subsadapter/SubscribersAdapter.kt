@@ -22,7 +22,11 @@ class SubscribersAdapter : ListAdapter<User, SubscribersViewHolder>(SubscribersD
     }
 
     override fun onBindViewHolder(holder: SubscribersViewHolder, position: Int) {
-        holder.bind(getItem(position), selectedMember)
+        if (currentList.lastIndex == position) {
+            holder.bind(getItem(position), selectedMember, true)
+        }else {
+            holder.bind(getItem(position), selectedMember, false)
+        }
     }
 
     fun onMemberSelected(selectedMember: SelectedMember) {

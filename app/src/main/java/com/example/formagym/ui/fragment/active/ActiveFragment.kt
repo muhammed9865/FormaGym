@@ -1,10 +1,7 @@
 package com.example.formagym.ui.fragment.active
 
-import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
@@ -17,13 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import coil.load
 import com.example.formagym.R
-import com.example.formagym.databinding.FragmentSubsBinding
+import com.example.formagym.databinding.FragmentActiveBinding
 import com.example.formagym.databinding.UserOptionsBottomSheetBinding
 import com.example.formagym.ui.adapter.paymentadapter.PaymentAdapter
 import com.example.formagym.ui.adapter.subsadapter.SelectedMember
 import com.example.formagym.ui.adapter.subsadapter.SubscribersAdapter
 import com.example.formagym.ui.mainviewmodel.MainViewModel
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -31,7 +27,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ActiveFragment : Fragment(), SearchView.OnQueryTextListener,
     SwipeRefreshLayout.OnRefreshListener {
-    private lateinit var binding: FragmentSubsBinding
+    private lateinit var binding: FragmentActiveBinding
     private val viewModel: ActiveViewModel by viewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
@@ -41,7 +37,7 @@ class ActiveFragment : Fragment(), SearchView.OnQueryTextListener,
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSubsBinding.inflate(inflater, container, false)
+        binding = FragmentActiveBinding.inflate(inflater, container, false)
 
         binding.apply {
             progressBar.visibility = View.VISIBLE

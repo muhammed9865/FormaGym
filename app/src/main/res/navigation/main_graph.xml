@@ -8,7 +8,7 @@
         android:id="@+id/activeFragment"
         android:name="com.example.formagym.ui.fragment.active.ActiveFragment"
         android:label="SubsFragment"
-        tools:layout="@layout/fragment_subs">
+        tools:layout="@layout/fragment_active">
         <action
             android:id="@+id/action_subsFragment_to_inactiveFragment"
             app:destination="@id/inactiveFragment"

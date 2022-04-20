@@ -14,7 +14,11 @@ class PaymentAdapter: ListAdapter<Payment, PaymentsViewHolder>(PaymentDiffCallba
     }
 
     override fun onBindViewHolder(holder: PaymentsViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        if (currentList.lastIndex == position) {
+            holder.bind(getItem(position), true)
+        }else {
+            holder.bind(getItem(position), false)
+        }
     }
 
 

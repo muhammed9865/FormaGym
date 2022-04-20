@@ -4,6 +4,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
@@ -32,6 +33,11 @@ fun Fragment.checkForPermission(string: String): Boolean {
         return true
     }
     return false
+}
+
+fun View.setBottomMargin(bottomMargin: Int) {
+    val mlp: ViewGroup.MarginLayoutParams = this.layoutParams as ViewGroup.MarginLayoutParams
+    mlp.bottomMargin = bottomMargin
 }
 
 
