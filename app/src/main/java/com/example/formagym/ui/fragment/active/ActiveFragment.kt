@@ -95,7 +95,7 @@ class ActiveFragment : Fragment(), SearchView.OnQueryTextListener,
                     userName.text = user.name
 
                     showDetails.setOnClickListener {
-                        mainViewModel.onViewDetails(userId)
+                        mainViewModel.setUserIdForDetails(userId)
                         bottomSheet.cancel()
                         findNavController().navigate(R.id.action_activeFragment_to_detailsFragment)
                     }

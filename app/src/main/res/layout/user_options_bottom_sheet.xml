@@ -6,7 +6,7 @@
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBarLayout"
@@ -45,7 +45,6 @@
                         android:textSize="@dimen/_14ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/show_payments"
-                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="@+id/user_photo"
                         app:layout_constraintTop_toBottomOf="@+id/user_photo"
                         tools:text="Muhammed Salman ASJHDKASDJKL" />
@@ -64,12 +63,12 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/show_payments"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:text="@string/payments"
                         android:textColor="#011638"
                         android:textSize="@dimen/_12ssp"

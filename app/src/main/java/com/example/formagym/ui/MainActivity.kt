@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.example.formagym.R
 import com.example.formagym.databinding.ActivityMainBinding
@@ -32,13 +33,9 @@ class MainActivity : AppCompatActivity() {
 
 
         createBottomNavigationMenu()
-
         viewModel.getActiveMembersLength()
         viewModel.getInactiveMembersLength()
 
-        binding.bottomNav.setOnShowListener {
-            Log.d(TAG, "onCreate: ${it.count}")
-        }
 
         setInactiveBadge()
         setActiveBadge()

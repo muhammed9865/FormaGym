@@ -29,7 +29,7 @@ class ActiveViewModel @Inject constructor(private val formaDao: FormaDao): ViewM
         viewModelScope.launch {
             formaDao.searchActiveMembers(
                 currentDate = System.currentTimeMillis(),
-                searchQuery = "$query%"
+                searchQuery = "%$query%"
             ).collect {
                 _activeMembers.value = it
             }

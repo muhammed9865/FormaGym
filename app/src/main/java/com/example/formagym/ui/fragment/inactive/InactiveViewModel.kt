@@ -24,11 +24,11 @@ class InactiveViewModel @Inject constructor(private val formaDao: FormaDao): Vie
         }
     }
 
-    fun searchActiveMembers(query: String) {
+    fun searchInActiveMembers(query: String) {
         viewModelScope.launch {
             formaDao.searchInActiveMembers(
                 currentDate = System.currentTimeMillis(),
-                searchQuery = "$query%"
+                searchQuery = "%$query%"
             ).collect {
                 _inActiveMembers.value = it
             }

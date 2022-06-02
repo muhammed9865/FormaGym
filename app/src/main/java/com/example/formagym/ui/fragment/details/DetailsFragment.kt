@@ -87,7 +87,7 @@ class DetailsFragment : Fragment(), View.OnCreateContextMenuListener {
             clearPhotoBtn.setOnClickListener {
                 viewModel.deletePhoto()
             }
-            subDurationManual.setOnClickListener {
+            setManualDurationBtn.setOnClickListener {
                 selectDateManually()
             }
         }

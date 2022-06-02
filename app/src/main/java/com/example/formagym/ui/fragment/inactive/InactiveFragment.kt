@@ -94,7 +94,7 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener, SwipeRefres
                     userName.text = user.name
 
                     showDetails.setOnClickListener {
-                        mainViewModel.onViewDetails(userId)
+                        mainViewModel.setUserIdForDetails(userId)
                         bottomSheet.cancel()
                         findNavController().navigate(R.id.action_inactiveFragment_to_detailsFragment)
                     }
@@ -124,14 +124,14 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener, SwipeRefres
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         query?.let {
-            viewModel.searchActiveMembers(query)
+            viewModel.searchInActiveMembers(query)
         } ?: viewModel.getInactiveMembers()
         return true
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
         query?.let {
-            viewModel.searchActiveMembers(query)
+            viewModel.searchInActiveMembers(query)
         } ?: viewModel.getInactiveMembers()
         return true
     }
