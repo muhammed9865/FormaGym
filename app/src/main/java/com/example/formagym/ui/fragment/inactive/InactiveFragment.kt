@@ -25,12 +25,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class InactiveFragment : Fragment(), SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
+class InactiveFragment : Fragment(), SearchView.OnQueryTextListener,
+    SwipeRefreshLayout.OnRefreshListener {
     private val binding: FragmentInactiveBinding by lazy {
         FragmentInactiveBinding.inflate(LayoutInflater.from(requireContext()))
     }
     private val mainViewModel: MainViewModel by activityViewModels()
     private val viewModel: InactiveViewModel by viewModels()
+
     @Inject
     lateinit var adapter: SubscribersAdapter
 
@@ -49,18 +51,18 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener, SwipeRefres
 
         adapter.onMemberSelected(object : SelectedMember {
             override fun onSelectedMember(userId: Int) {
-               showMemberOptionsDialog(userId)
+                showMemberOptionsDialog(userId)
             }
         })
 
         viewModel.inactiveMembers.observe(requireActivity()) { list ->
-                adapter.submitList(list)
+            adapter.submitList(list)
             binding.inactiveRefresher.isRefreshing = false
-                if(list.isNotEmpty()) {
-                    binding.emptyMembers.visibility = View.GONE
-                }else {
-                    binding.emptyMembers.visibility = View.VISIBLE
-                }
+            if (list.isNotEmpty()) {
+                binding.emptyMembers.visibility = View.GONE
+            } else {
+                binding.emptyMembers.visibility = View.VISIBLE
+            }
         }
 
         setupInactiveRv(adapter)

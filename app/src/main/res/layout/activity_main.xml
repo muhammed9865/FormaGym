@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,6 +19,65 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/main_graph" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/stats_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_2sdp"
+            android:background="@drawable/transparent_rounded_bg"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/active_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/actives_section"
+                android:textColor="@color/active_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/active_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/active_tv"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                tools:text="50"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/active_tv"
+                app:layout_constraintStart_toEndOf="@+id/active_tv"
+                app:layout_constraintTop_toTopOf="@+id/active_tv" />
+
+            <TextView
+                android:id="@+id/inactive_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/inactive_subs"
+                android:textColor="@color/inactive_date"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/active_tv" />
+
+            <TextView
+                android:id="@+id/inactive_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/active_tv"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="4dp"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/inactive_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/inactive_tv"
+                app:layout_constraintTop_toTopOf="@+id/inactive_tv"
+                tools:text="50" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <com.etebarian.meowbottomnavigation.MeowBottomNavigation

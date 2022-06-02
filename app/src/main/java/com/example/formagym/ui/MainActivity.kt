@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.inactiveSubsCount.observe(this) { count ->
             if (count > 0) {
                 binding.bottomNav.setCount(R.id.inactives_section, count.toString())
+                binding.inactiveCount.text = count.toString()
 
             } else {
                 binding.bottomNav.clearCount(R.id.inactives_section)
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.activeSubsCount.observe(this) { count ->
             if (count > 0) {
                 binding.bottomNav.setCount(R.id.active, count.toString())
+                binding.activeCount.text = count.toString()
 
             } else {
                 binding.bottomNav.clearCount(R.id.active)
@@ -117,16 +119,21 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.detailsFragment -> {
-                    binding.bottomNav.visibility = View.GONE
-                    binding.newMemberFab.visibility = View.GONE
+                    binding.apply {
+                        bottomNav.visibility = View.GONE
+                        newMemberFab.visibility = View.GONE
+                        statsLayout.visibility = View.INVISIBLE
+                    }
 
                 }
                 R.id.incomeFragment -> {
                     binding.newMemberFab.visibility = View.INVISIBLE
+                    binding.statsLayout.visibility = View.INVISIBLE
                 }
                 else -> {
                     binding.bottomNav.visibility = View.VISIBLE
                     binding.newMemberFab.visibility = View.VISIBLE
+                    binding.statsLayout.visibility = View.VISIBLE
                 }
             }
         }

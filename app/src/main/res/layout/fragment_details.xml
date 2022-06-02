@@ -17,7 +17,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:navigationIcon="@drawable/ic_baseline_arrow_upward_24" />
@@ -260,39 +259,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
-
-            <!--<com.google.android.material.button.MaterialButton
-                android:id="@+id/save_details"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_35sdp"
-                android:layout_marginEnd="@dimen/_35sdp"
-                android:padding="@dimen/_12sdp"
-                android:text="@string/save"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/_14ssp"
-                app:backgroundTint="@color/gold"
-                app:cornerRadius="@dimen/button_radius"
-                app:layout_constraintEnd_toEndOf="@+id/member_details"
-                app:layout_constraintStart_toStartOf="@+id/member_details"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"--> />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/remove_member"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:padding="@dimen/_10sdp"
-                android:text="@string/delete"
-                android:textColor="@color/gold"
-                android:textSize="@dimen/_13ssp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/save_details"
-                app:layout_constraintStart_toStartOf="@+id/save_details"
-                app:layout_constraintTop_toBottomOf="@+id/save_details"
-                app:strokeColor="@color/gold" />
 
 
             <com.google.android.material.textfield.TextInputLayout
