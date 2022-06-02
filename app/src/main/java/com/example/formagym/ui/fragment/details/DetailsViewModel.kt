@@ -79,7 +79,7 @@ class DetailsViewModel @Inject constructor(private val dao: FormaDao) : ViewMode
 
 
                 // If User doesn't exist, then create a new user..
-            } ?: if (!memberName.value.isNullOrEmpty() && memberSubDate.value != null && _paymentPrice != 0.0) {
+            } ?: if (!memberName.value.isNullOrEmpty() && memberSubDate.value != null) {
                 val newUser = User(
                     memberName.value!!,
                     ct,

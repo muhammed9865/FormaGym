@@ -56,7 +56,7 @@ class DetailsFragment : Fragment(), View.OnCreateContextMenuListener {
                 }
                 // Observing on Date changes
                 date.observe(viewLifecycleOwner) {
-                    Log.d(TAG, "selectDate: ${it}")
+                    Log.d(TAG, "selectDate: $it")
                     subDurationManual.setText(getDateAsString(it))
                 }
                 // binding.memberName.setText(name.value)

@@ -212,7 +212,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/textInputLayout2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="9dp"
@@ -225,10 +225,10 @@
                         app:boxStrokeColor="@color/grey"
                         app:hintTextColor="@color/grey"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/set_manual_duration_btn"
+                        app:layout_constraintEnd_toStartOf="@+id/view"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintHorizontal_chainStyle="spread"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/view2"
                         app:layout_constraintTop_toBottomOf="@+id/textView">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -236,8 +236,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:backgroundTint="#423D3B3B"
-                            android:enabled="false"
                             android:clickable="false"
+                            android:enabled="false"
                             android:focusable="false"
                             android:fontFamily="@font/sego_semibold"
                             android:inputType="textCapWords"
