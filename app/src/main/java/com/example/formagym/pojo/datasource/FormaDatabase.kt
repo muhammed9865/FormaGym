@@ -12,9 +12,11 @@ import com.example.formagym.pojo.model.User
 @Database(
     entities = [User::class, Payment::class],
     version = Constants.DATABASE_VERSION,
-    autoMigrations = [
-        AutoMigration(from = 3, to = 4),
-    ],
+   /* autoMigrations = [
+
+        AutoMigration(from = 6, to = 4),
+        //AutoMigration(from = 3, to = 4),
+    ],*/
     exportSchema = true
 )
 @TypeConverters(PhotoConverter::class)

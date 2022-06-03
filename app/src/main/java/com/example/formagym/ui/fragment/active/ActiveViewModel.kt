@@ -25,17 +25,6 @@ class ActiveViewModel @Inject constructor(private val formaDao: FormaDao): ViewM
         }
     }
 
-    fun searchActiveMembers(query: String) {
-        viewModelScope.launch {
-            formaDao.searchActiveMembers(
-                currentDate = System.currentTimeMillis(),
-                searchQuery = "%$query%"
-            ).collect {
-                _activeMembers.value = it
-            }
-        }
-    }
-
     fun searchMemberByID(userId: Int): LiveData<User> {
         val user = MutableLiveData<User>()
         viewModelScope.launch {

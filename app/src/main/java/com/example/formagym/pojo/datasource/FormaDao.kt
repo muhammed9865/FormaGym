@@ -74,6 +74,9 @@ abstract class FormaDao {
     @Query("DELETE FROM Payment")
     abstract suspend fun deleteAllPayments()
 
+    @Delete
+    abstract suspend fun deletePayment(payment: Payment)
+
 
     // Special Methods
     // Used with saving a new member to get his ID, and then insert it into the Payment.

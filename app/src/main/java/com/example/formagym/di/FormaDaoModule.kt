@@ -22,6 +22,7 @@ class FormaDaoModule {
     fun provideDatabase(@ApplicationContext context: Context): FormaDatabase {
         return Room
             .databaseBuilder(context, FormaDatabase::class.java, "forma.db")
+            .fallbackToDestructiveMigration()
             .build()
     }
 

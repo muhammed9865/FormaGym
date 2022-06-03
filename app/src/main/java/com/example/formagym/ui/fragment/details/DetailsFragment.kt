@@ -64,7 +64,10 @@ class DetailsFragment : Fragment(), View.OnCreateContextMenuListener {
                 // Observing on Saving Member Response
                 response.observe(viewLifecycleOwner) { response ->
                     when (response) {
-                        is SaveResponse.SavedSuccessfully -> findNavController().navigateUp()
+                        is SaveResponse.SavedSuccessfully -> {
+                           // mainViewModel.refreshActives()
+                            findNavController().navigateUp()
+                        }
                         is SaveResponse.EmptyBoxError -> showError(
                             binding.root,
                             getString(R.string.error_message)
@@ -97,6 +100,8 @@ class DetailsFragment : Fragment(), View.OnCreateContextMenuListener {
         // Inflate the layout for this fragment
         return binding.root
     }
+
+
 
     private val photoIntent = registerForActivityResult(
         ActivityResultContracts.TakePicturePreview()
@@ -167,19 +172,19 @@ class DetailsFragment : Fragment(), View.OnCreateContextMenuListener {
     }
 
     private fun removeUser(user: User) {
-                AlertDialog.Builder(requireContext())
-                    .setIcon(R.drawable.exclamation)
-                    .setTitle("Deleting Subscriber")
-                    .setMessage(getString(R.string.delete_member) + user.name)
-                    .setPositiveButton(getString(R.string.delete)) { d, _ ->
-                        viewModel.deleteMember()
-                        d.dismiss()
-                        d.cancel()
-                        findNavController().navigateUp()
-                    }
-                    .setNegativeButton(getString(R.string.cancel)) { d, _ ->
-                        d.dismiss()
-                    }.show()
+        AlertDialog.Builder(requireContext())
+            .setIcon(R.drawable.exclamation)
+            .setTitle("Deleting Subscriber")
+            .setMessage(getString(R.string.delete_member) + user.name)
+            .setPositiveButton(getString(R.string.delete)) { d, _ ->
+                viewModel.deleteMember()
+                d.dismiss()
+                d.cancel()
+                findNavController().navigateUp()
+            }
+            .setNegativeButton(getString(R.string.cancel)) { d, _ ->
+                d.dismiss()
+            }.show()
 
     }
 
@@ -196,7 +201,6 @@ class DetailsFragment : Fragment(), View.OnCreateContextMenuListener {
     }
 
 
-
     private fun setToolbarMenu() {
         binding.toolbar.apply {
             // Inflating accurate menu
@@ -207,7 +211,7 @@ class DetailsFragment : Fragment(), View.OnCreateContextMenuListener {
             // Setting on menuItem click listener
             setOnMenuItemClickListener { item ->
                 Log.d(TAG, "setToolbarMenu: ${item.itemId}")
-                when(item.itemId) {
+                when (item.itemId) {
                     R.id.save_details -> {
                         viewModel.saveMember()
                         true
@@ -227,7 +231,7 @@ class DetailsFragment : Fragment(), View.OnCreateContextMenuListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
+        return when (item.itemId) {
             R.id.save_details -> {
                 viewModel.saveMember()
                 true

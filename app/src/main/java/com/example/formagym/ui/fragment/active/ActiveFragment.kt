@@ -57,7 +57,7 @@ class ActiveFragment : Fragment(), SearchView.OnQueryTextListener,
             }
         })
 
-        viewModel.activeMembers.observe(viewLifecycleOwner) {
+        mainViewModel.activeMembers.observe(viewLifecycleOwner) {
             binding.activeRefresher.isRefreshing = false
             mAdapter.submitList(it)
             binding.progressBar.visibility = View.GONE
@@ -138,20 +138,20 @@ class ActiveFragment : Fragment(), SearchView.OnQueryTextListener,
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         query?.let {
-            viewModel.searchActiveMembers(query)
-        } ?: viewModel.getActiveMembers()
+            mainViewModel.searchActiveMembers(query)
+        } ?: mainViewModel.refreshActives()
         return true
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
         query?.let {
-            viewModel.searchActiveMembers(query)
-        } ?: viewModel.getActiveMembers()
+            mainViewModel.searchActiveMembers(query)
+        } ?: mainViewModel.refreshActives()
         return true
     }
 
     override fun onRefresh() {
-        viewModel.getActiveMembers()
+        mainViewModel.refreshActives()
         mainViewModel.getActiveMembersLength()
 
     }

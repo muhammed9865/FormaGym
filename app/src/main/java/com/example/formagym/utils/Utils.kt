@@ -14,7 +14,7 @@ import java.util.*
 
 
 fun getDateAsString(milliseconds: Long): String {
-    val sdf = SimpleDateFormat("d MMM, yyyy", Locale.getDefault())
+    val sdf = SimpleDateFormat("d MMM, yyyy ", Locale.getDefault())
     val calendar = Calendar.getInstance()
     calendar.timeInMillis = milliseconds
     return sdf.format(calendar.time)

@@ -8,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.formagym.pojo.datasource.FormaDao
 import com.example.formagym.pojo.model.Payment
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,6 +32,18 @@ class IncomeViewModel @Inject constructor(private val dao: FormaDao): ViewModel(
         viewModelScope.launch {
             _totalIncome.value = dao.getTotalIncome()
         }
+    }
+
+
+    fun deletePayment(payment: Payment):LiveData<Boolean> {
+        val result = MutableLiveData(false)
+        viewModelScope.launch(Dispatchers.IO) {
+            dao.deletePayment(payment)
+            withContext(Dispatchers.Main) {
+                result.value = true
+            }
+        }
+        return result
     }
     
 

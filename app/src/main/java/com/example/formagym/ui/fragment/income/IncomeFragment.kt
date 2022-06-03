@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.formagym.databinding.AvgCalculationBottomSheetBinding
 import com.example.formagym.databinding.FragmentIncomeBinding
 import com.example.formagym.ui.adapter.paymentadapter.PaymentAdapter
@@ -58,6 +60,36 @@ class IncomeFragment : Fragment() {
         binding.calcAvergBtn.setOnClickListener { onCalculateAverageIncomeClicked() }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val simpleItemTouchCB = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val payment = mAdapter.currentList[viewHolder.adapterPosition]
+                viewModel.deletePayment(payment).observe(viewLifecycleOwner) { result ->
+                    if (result) {
+                        val newList = mAdapter.currentList.toMutableList()
+                        newList.remove(payment)
+                        mAdapter.submitList(newList)
+                    }
+                }
+
+            }
+
+        }
+
+        ItemTouchHelper(simpleItemTouchCB).also {
+            it.attachToRecyclerView(binding.paymentsRv)
+        }
     }
 
     private fun onCalculateAverageIncomeClicked() {

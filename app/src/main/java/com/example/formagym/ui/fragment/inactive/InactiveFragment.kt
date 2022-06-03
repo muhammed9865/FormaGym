@@ -55,7 +55,7 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener,
             }
         })
 
-        viewModel.inactiveMembers.observe(requireActivity()) { list ->
+        mainViewModel.inactiveMembers.observe(requireActivity()) { list ->
             adapter.submitList(list)
             binding.inactiveRefresher.isRefreshing = false
             if (list.isNotEmpty()) {
@@ -126,22 +126,22 @@ class InactiveFragment : Fragment(), SearchView.OnQueryTextListener,
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         query?.let {
-            viewModel.searchInActiveMembers(query)
-        } ?: viewModel.getInactiveMembers()
+            mainViewModel.searchInActiveMembers(query)
+        } ?: mainViewModel.refreshInactives()
         return true
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
         query?.let {
-            viewModel.searchInActiveMembers(query)
-        } ?: viewModel.getInactiveMembers()
+            mainViewModel.searchInActiveMembers(query)
+        } ?: mainViewModel.refreshInactives()
         return true
     }
 
     override fun onRefresh() {
-        viewModel.getInactiveMembers()
+        mainViewModel.refreshInactives()
         mainViewModel.getInactiveMembersLength()
-        binding.inactiveRefresher.isRefreshing = false
+        // binding.inactiveRefresher.isRefreshing = false
     }
 
 
