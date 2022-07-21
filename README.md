@@ -28,5 +28,5 @@
 ### About
 
 The idea of it is to ease the management for the gym owner.
-So he doesn't have to worry about sub dates or whatever
+So he doesn't have to worry about sub dates, or any payments.
 
