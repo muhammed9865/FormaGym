@@ -1,6 +1,6 @@
 package com.example.formagym.di
 
-import com.example.formagym.ui.adapter.subsadapter.SubscribersAdapter
+import com.example.formagym.presentation.adapter.subsadapter.SubscribersAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
